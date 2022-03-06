@@ -5,8 +5,9 @@ import { styled } from '@mui/material/styles';
 // components
 import { RegisterForm } from '../components';
 import AuthLayout from '../layouts/AuthLayout';
+import Page from '../components/Page';
 
-const RootStyle = styled(Box)(({ theme }) => ({
+const RootStyle = styled(Page)(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
     display: 'flex',
   },
@@ -32,7 +33,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 const Landing = () => {
   return (
-    <RootStyle>
+    <RootStyle title="Register | Certification">
       <AuthLayout>
         Already have an account? &nbsp;
         <Link
@@ -78,24 +79,6 @@ const Landing = () => {
               Privacy Policy
             </Link>
             .
-          </Typography>
-
-          <Typography
-            variant="subtitle2"
-            sx={{
-              mt: 3,
-              textAlign: 'center',
-              display: { sm: 'none' },
-            }}
-          >
-            Already have an account?&nbsp;
-            <Link
-              underline="hover"
-              to="/login"
-              //component={RouterLink}
-            >
-              Login
-            </Link>
           </Typography>
         </ContentStyle>
       </Container>

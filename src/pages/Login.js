@@ -5,9 +5,9 @@ import { Card, Stack, Link, Container, Typography, Box } from '@mui/material';
 // layouts
 import AuthLayout from '../layouts/AuthLayout';
 import { LoginForm } from '../components';
-//import Page from '../components/Page';
+import Page from '../components/Page';
 
-const RootStyle = styled(Box)(({ theme }) => ({
+const RootStyle = styled(Page)(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
     display: 'flex',
   },
@@ -33,7 +33,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 const Login = () => {
   return (
-    <RootStyle title="Login | Minimal-UI">
+    <RootStyle title="Login | Certification">
       <AuthLayout>
         Don’t have an account? &nbsp;
         <Link

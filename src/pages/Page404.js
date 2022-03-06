@@ -4,9 +4,9 @@ import { styled } from '@mui/material/styles';
 import { Box, Button, Typography } from '@mui/material';
 // components
 import AuthLayout from '../layouts/AuthLayout';
-//import Page from '../components/Page';
+import Page from '../components/Page';
 
-const RootStyle = styled(Box)(({ theme }) => ({
+const RootStyle = styled(Page)(({ theme }) => ({
   display: 'flex',
   minHeight: '100%',
   alignItems: 'center',
@@ -16,7 +16,7 @@ const RootStyle = styled(Box)(({ theme }) => ({
 
 const Page404 = () => {
   return (
-    <RootStyle>
+    <RootStyle title="404 | Certification">
       <AuthLayout />
 
       <Box sx={{ maxWidth: 480, margin: 'auto', textAlign: 'center' }}>
