@@ -32,8 +32,13 @@
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest"
+      "react-app/jest",
+      "plugin:cypress/recommended"
     ]
+  },
+  "prettier": {
+    "semi": false,
+    "tabWidth": 2
   },
   "browserslist": {
     "production": [
@@ -46,5 +51,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cypress": "^9.5.1",
+    "eslint-plugin-cypress": "^2.12.1"
   }
 }

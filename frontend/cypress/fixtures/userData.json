@@ -1,0 +1,10 @@
+{
+  "username": "test_User",
+  "usernameShort": "te",
+  "usernameLong": "testUserOver20CharactersLong",
+  "usernameBadChar": "Test!!^97%",
+  "password": "Password!",
+  "passwordShort": "passW",
+  "email": "validEmail@test.com",
+  "emailBad": "ssf@gff."
+}
