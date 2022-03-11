@@ -14,32 +14,32 @@ const Register = () => {
 
   const RegisterSchema = Yup.object().shape({
     username: Yup.string()
+      .required('Username is required')
       .min(3, 'Username must be at least 3 characters')
       .max(20, 'Username cannot be longer than 20 characters')
-      .required('Username is required')
       .matches(
         /^[A-Za-z0-9_-]*$/,
         'Letters, numbers, dashes, and underscores only. Please try again without symbols.'
       ),
-    // .matches(/^.{3,20}$/s, "Username must be between 3 and 20 characters"),
     email: Yup.string()
       .required('Email is required')
       .email('Enter a valid email address'),
     password: Yup.string()
       .required('Password is required')
-      .min(8, 'Password must be at least 8 characters'),
+      .min(8, 'Password must be at least 8 characters')
+      .max(64, 'Password cannot be longer than 64 characters')
   })
 
   const formik = useFormik({
     initialValues: {
       username: '',
       email: '',
-      password: '',
+      password: ''
     },
     validationSchema: RegisterSchema,
     onSubmit: () => {
       navigate('/dashboard', { replace: true })
-    },
+    }
   })
 
   const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik
@@ -86,7 +86,7 @@ const Register = () => {
                     />
                   </IconButton>
                 </InputAdornment>
-              ),
+              )
             }}
             error={Boolean(touched.password && errors.password)}
             helperText={touched.password && errors.password}
