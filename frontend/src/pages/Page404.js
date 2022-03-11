@@ -1,24 +1,21 @@
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom'
 // material
-import { styled } from '@mui/material/styles';
-import { Box, Button, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles'
+import { Box, Button, Typography } from '@mui/material'
 // components
-import AuthLayout from '../layouts/AuthLayout';
-import Page from '../components/Page';
+import Page from '../components/Page'
 
 const RootStyle = styled(Page)(({ theme }) => ({
   display: 'flex',
   minHeight: '100%',
   alignItems: 'center',
   paddingTop: theme.spacing(15),
-  paddingBottom: theme.spacing(10),
-}));
+  paddingBottom: theme.spacing(10)
+}))
 
 const Page404 = () => {
   return (
     <RootStyle title="404 | Certification">
-      <AuthLayout />
-
       <Box sx={{ maxWidth: 480, margin: 'auto', textAlign: 'center' }}>
         <Typography variant="h1" sx={{ fontWeight: 700 }}>
           404
@@ -40,7 +37,7 @@ const Page404 = () => {
         </Button>
       </Box>
     </RootStyle>
-  );
-};
+  )
+}
 
-export default Page404;
+export default Page404
