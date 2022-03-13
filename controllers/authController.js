@@ -17,9 +17,18 @@ const register = async (req, res) => {
   if (existingUsername) {
     throw new BadRequestError('Username already taken')
   }
-
   const user = await User.create({ username, email, password })
-  res.status(StatusCodes.CREATED).json({ user })
+  const token = user.createJWT()
+  res.status(StatusCodes.CREATED).json({
+    user: {
+      username: user.username,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      location: user.location
+    },
+    token
+  })
 }
 
 const login = async (req, res) => {
