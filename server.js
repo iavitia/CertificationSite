@@ -3,7 +3,7 @@ import express from 'express'
 import 'express-async-errors'
 // middleware
 import notFoundMiddleware from './middleware/not-found.js'
-import errorhandlerMiddleware from './middleware/error-handler.js'
+import errorHandlerMiddleware from './middleware/error-handler.js'
 // db
 import connectDB from './db/connect.js'
 // routers
@@ -15,14 +15,18 @@ const app = express()
 app.use(express.json())
 
 app.get('/', (req, res) => {
-  res.send('Welcome')
+  res.json({ msg: 'Welcome' })
+})
+
+app.get('/api/v1', (req, res) => {
+  res.json({ msg: 'API' })
 })
 
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/questions', questionRouter)
 
 app.use(notFoundMiddleware)
-app.use(errorhandlerMiddleware)
+app.use(errorHandlerMiddleware)
 
 const port = process.env.PORT || 5000
 
