@@ -4,28 +4,46 @@ import { useNavigate } from 'react-router-dom'
 import * as Yup from 'yup'
 import { useFormik, Form, FormikProvider } from 'formik'
 // components
-import { Stack, TextField, IconButton, InputAdornment } from '@mui/material'
+import {
+  Stack,
+  TextField,
+  IconButton,
+  InputAdornment,
+  Alert
+} from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 import Iconify from './Iconify'
+import { useAppContext } from '../context/appContext'
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false)
   const navigate = useNavigate()
+  const { loginUser } = useAppContext()
 
   const LoginSchema = Yup.object().shape({
     username: Yup.string().required('Username is required'),
-    password: Yup.string().required('Password is required'),
+    password: Yup.string().required('Password is required')
   })
 
   const formik = useFormik({
     initialValues: {
       username: '',
-      password: '',
+      password: ''
     },
     validationSchema: LoginSchema,
-    onSubmit: () => {
-      navigate('/dashboard', { replace: true })
-    },
+    onSubmit: async (values, { setErrors, setSubmitting }) => {
+      const currentUser = {
+        username: values.username,
+        password: values.password
+      }
+      try {
+        await loginUser(currentUser)
+        navigate('/dashboard', { replace: true })
+      } catch (error) {
+        setErrors({ afterSubmit: error.response.data.msg })
+        setSubmitting(false)
+      }
+    }
   })
 
   const handleShowPassword = () => {
@@ -38,6 +56,10 @@ const LoginForm = () => {
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
+          {errors.afterSubmit && (
+            <Alert severity="error">{errors.afterSubmit}</Alert>
+          )}
+
           <TextField
             data-cy="username"
             fullWidth
@@ -64,7 +86,7 @@ const LoginForm = () => {
                     />
                   </IconButton>
                 </InputAdornment>
-              ),
+              )
             }}
             error={Boolean(touched.password && errors.password)}
             helperText={touched.password && errors.password}

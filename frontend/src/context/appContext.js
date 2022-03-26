@@ -1,7 +1,7 @@
 import { useReducer, useContext, createContext } from 'react'
 import axios from 'axios'
 import reducer from './reducer'
-import { DISPLAY_ALERT, REGISTER } from './actions'
+import { DISPLAY_ALERT, REGISTER, LOGIN } from './actions'
 
 const token = localStorage.getItem('token')
 const user = localStorage.getItem('user')
@@ -35,8 +35,8 @@ const AppProvider = ({ children }) => {
   }
 
   const registerUser = async (currentUser) => {
-    const response = await axios.post('/api/v1/auth/register', currentUser)
-    const { user, token } = response.data
+    const { data } = await axios.post('/api/v1/auth/register', currentUser)
+    const { user, token } = data
 
     dispatch({
       type: REGISTER,
@@ -46,8 +46,22 @@ const AppProvider = ({ children }) => {
     addUserToLocalStorage({ user, token })
   }
 
+  const loginUser = async (currentUser) => {
+    const { data } = await axios.post('/api/v1/auth/login', currentUser)
+    const { user, token } = data
+
+    dispatch({
+      type: LOGIN,
+      payload: { user, token }
+    })
+
+    addUserToLocalStorage({ user, token })
+  }
+
   return (
-    <AppContext.Provider value={{ ...state, registerUser, displayAlert }}>
+    <AppContext.Provider
+      value={{ ...state, displayAlert, registerUser, loginUser }}
+    >
       {children}
     </AppContext.Provider>
   )

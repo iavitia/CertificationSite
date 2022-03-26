@@ -1,4 +1,4 @@
-import { DISPLAY_ALERT, REGISTER } from './actions'
+import { DISPLAY_ALERT, REGISTER, LOGIN } from './actions'
 
 const reducer = (state, action) => {
   if (action.type === DISPLAY_ALERT) {
@@ -11,6 +11,10 @@ const reducer = (state, action) => {
   }
 
   if (action.type === REGISTER) {
+    return { ...state, token: action.payload.token, user: action.payload.user }
+  }
+
+  if (action.type === LOGIN) {
     return { ...state, token: action.payload.token, user: action.payload.user }
   }
 

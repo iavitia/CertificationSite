@@ -1,5 +1,6 @@
 // Alerts
 export const DISPLAY_ALERT = 'SHOW_ALERT'
 
-// Register
+// Authenticate
 export const REGISTER = 'REGISTER'
+export const LOGIN = 'LOGIN'
