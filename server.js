@@ -1,6 +1,7 @@
 import dotenv from 'dotenv'
 import express from 'express'
 import 'express-async-errors'
+import morgan from 'morgan'
 // middleware
 import notFoundMiddleware from './middleware/not-found.js'
 import errorHandlerMiddleware from './middleware/error-handler.js'
@@ -13,6 +14,10 @@ import questionRouter from './routes/questionRoutes.js'
 dotenv.config()
 const app = express()
 app.use(express.json())
+
+if (process.env.NODE_ENV) {
+  app.use(morgan('dev'))
+}
 
 app.get('/', (req, res) => {
   res.json({ msg: 'Welcome' })

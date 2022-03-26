@@ -4,13 +4,21 @@ import { useNavigate } from 'react-router-dom'
 import * as Yup from 'yup'
 import { useFormik, Form, FormikProvider } from 'formik'
 // components
-import { Stack, TextField, InputAdornment, IconButton } from '@mui/material'
+import {
+  Stack,
+  TextField,
+  InputAdornment,
+  IconButton,
+  Alert
+} from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 import Iconify from './Iconify'
+import { useAppContext } from '../context/appContext'
 
 const Register = () => {
   const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false)
+  const { registerUser } = useAppContext()
 
   const RegisterSchema = Yup.object().shape({
     username: Yup.string()
@@ -37,8 +45,19 @@ const Register = () => {
       password: ''
     },
     validationSchema: RegisterSchema,
-    onSubmit: () => {
-      navigate('/dashboard', { replace: true })
+    onSubmit: async (values, { setErrors, setSubmitting }) => {
+      const currentUser = {
+        username: values.username,
+        email: values.email,
+        password: values.password
+      }
+      try {
+        await registerUser(currentUser)
+        navigate('/dashboard', { replace: true })
+      } catch (error) {
+        setErrors({ afterSubmit: error.response.data.msg })
+        setSubmitting(false)
+      }
     }
   })
 
@@ -48,6 +67,10 @@ const Register = () => {
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
+          {errors.afterSubmit && (
+            <Alert severity="error">{errors.afterSubmit}</Alert>
+          )}
+
           <TextField
             data-cy="username"
             fullWidth
