@@ -1,25 +1,25 @@
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom'
 // material
-import { styled } from '@mui/material/styles';
-import { Card, Stack, Link, Container, Typography, Box } from '@mui/material';
+import { styled } from '@mui/material/styles'
+import { Card, Stack, Link, Container, Typography, Box } from '@mui/material'
 // layouts
-import AuthLayout from '../layouts/AuthLayout';
-import { LoginForm } from '../components';
-import Page from '../components/Page';
+import AuthLayout from '../layouts/AuthLayout'
+import { LoginForm } from '../components'
+import Page from '../components/Page'
 
 const RootStyle = styled(Page)(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
-    display: 'flex',
-  },
-}));
+    display: 'flex'
+  }
+}))
 
 const SectionStyle = styled(Card)(({ theme }) => ({
   width: '100%',
   maxWidth: 464,
   display: 'flex',
   flexDirection: 'column',
-  borderRadius: 'unset',
-}));
+  borderRadius: 'unset'
+}))
 
 const ContentStyle = styled('div')(({ theme }) => ({
   maxWidth: 480,
@@ -28,8 +28,8 @@ const ContentStyle = styled('div')(({ theme }) => ({
   minHeight: '100vh',
   flexDirection: 'column',
   justifyContent: 'center',
-  padding: theme.spacing(12, 0),
-}));
+  padding: theme.spacing(12, 0)
+}))
 
 const Login = () => {
   return (
@@ -67,7 +67,7 @@ const Login = () => {
         </ContentStyle>
       </Container>
     </RootStyle>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

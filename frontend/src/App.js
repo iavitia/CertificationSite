@@ -1,6 +1,6 @@
-import './App.css';
-import Router from './routes';
-import ThemeConfig from './theme';
+import './App.css'
+import Router from './routes'
+import ThemeConfig from './theme'
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
         <Router />
       </ThemeConfig>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
