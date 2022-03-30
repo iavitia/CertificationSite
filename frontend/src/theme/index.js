@@ -1,31 +1,34 @@
-import { useMemo } from 'react';
+import { useMemo } from 'react'
 // material
-import { CssBaseline } from '@mui/material';
+import { CssBaseline } from '@mui/material'
 import {
   ThemeProvider,
   createTheme,
-  StyledEngineProvider,
-} from '@mui/material/styles';
+  StyledEngineProvider
+} from '@mui/material/styles'
 //
-import typography from './typography';
-import componentsOverride from './overrides';
-import shadows, { customShadows } from './shadows';
-import palette from './palette';
+import typography from './typography'
+import breakpoints from './breakpoints'
+import shape from './shape'
+import componentsOverride from './overrides'
+import shadows, { customShadows } from './shadows'
+import palette from './palette'
 
 export default function ThemeConfig({ children }) {
   const themeOptions = useMemo(
     () => ({
-      shape: { borderRadius: 8 },
+      shape,
       typography,
+      breakpoints,
       shadows,
       customShadows,
-      palette,
+      palette
     }),
     []
-  );
+  )
 
-  const theme = createTheme(themeOptions);
-  theme.components = componentsOverride(theme);
+  const theme = createTheme(themeOptions)
+  theme.components = componentsOverride(theme)
 
   return (
     <StyledEngineProvider injectFirst>
@@ -34,5 +37,5 @@ export default function ThemeConfig({ children }) {
         {children}
       </ThemeProvider>
     </StyledEngineProvider>
-  );
+  )
 }
