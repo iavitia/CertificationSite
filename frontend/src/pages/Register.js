@@ -1,25 +1,28 @@
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom'
 // material
-import { Box, Card, Link, Container, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Box, Card, Link, Container, Typography } from '@mui/material'
+import { styled } from '@mui/material/styles'
+// layouts
+import AuthLayout from '../layouts/AuthLayout'
 // components
-import { RegisterForm } from '../components';
-import AuthLayout from '../layouts/AuthLayout';
-import Page from '../components/Page';
+import { RegisterForm } from '../components'
+import Page from '../components/Page'
+// routes
+import { PATH_AUTH } from '../routes/paths'
 
 const RootStyle = styled(Page)(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
-    display: 'flex',
-  },
-}));
+    display: 'flex'
+  }
+}))
 
 const SectionStyle = styled(Card)(({ theme }) => ({
   width: '100%',
   maxWidth: 464,
   display: 'flex',
   flexDirection: 'column',
-  borderRadius: 'unset',
-}));
+  borderRadius: 'unset'
+}))
 
 const ContentStyle = styled('div')(({ theme }) => ({
   maxWidth: 480,
@@ -28,8 +31,8 @@ const ContentStyle = styled('div')(({ theme }) => ({
   minHeight: '100vh',
   flexDirection: 'column',
   justifyContent: 'center',
-  padding: theme.spacing(12, 0),
-}));
+  padding: theme.spacing(12, 0)
+}))
 
 const Landing = () => {
   return (
@@ -40,7 +43,7 @@ const Landing = () => {
           underline="none"
           variant="subtitle2"
           component={RouterLink}
-          to="/login"
+          to={PATH_AUTH.login}
         >
           Login
         </Link>
@@ -83,7 +86,7 @@ const Landing = () => {
         </ContentStyle>
       </Container>
     </RootStyle>
-  );
-};
+  )
+}
 
-export default Landing;
+export default Landing

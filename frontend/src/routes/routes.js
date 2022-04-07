@@ -1,9 +1,9 @@
 import { Routes, Route } from 'react-router-dom'
 //pages
-import { Study, NewStudyQuestion, Profile } from './pages/dashboard'
-import { Page404, Register, Login, ProtectedRoute } from './pages'
+import { Study, NewStudyQuestion, Profile } from '../pages/dashboard'
+import { Page404, Register, Login, ProtectedRoute } from '../pages'
 // Layouts
-import DashboardLayout from './layouts/Dashboard'
+import DashboardLayout from '../layouts/Dashboard'
 
 export default function Router() {
   return (

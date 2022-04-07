@@ -1,11 +1,14 @@
 import { Link as RouterLink } from 'react-router-dom'
 // material
 import { styled } from '@mui/material/styles'
-import { Card, Stack, Link, Container, Typography, Box } from '@mui/material'
+import { Card, Stack, Link, Container, Typography } from '@mui/material'
 // layouts
 import AuthLayout from '../layouts/AuthLayout'
+// components
 import { LoginForm } from '../components'
 import Page from '../components/Page'
+// routes
+import { PATH_AUTH } from '../routes/paths'
 
 const RootStyle = styled(Page)(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
@@ -40,7 +43,7 @@ const Login = () => {
           underline="none"
           variant="subtitle2"
           component={RouterLink}
-          to="/register"
+          to={PATH_AUTH.register}
         >
           Get started
         </Link>

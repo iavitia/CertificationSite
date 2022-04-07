@@ -5,6 +5,8 @@ import { useAppContext } from '../../context/appContext'
 // material
 import { alpha } from '@mui/material/styles'
 import { Box, Divider, MenuItem, Avatar, IconButton } from '@mui/material'
+//  routes
+import { PATH_DASHBOARD } from '../../routes/paths'
 // components
 import Iconify from '../../components/Iconify'
 import { MenuPopover } from '../../components'
@@ -15,12 +17,12 @@ const MENU_OPTIONS = [
   {
     label: 'Profile',
     icon: 'eva:person-fill',
-    linkTo: '/profile'
+    linkTo: PATH_DASHBOARD.user.profile
   },
   {
     label: 'Settings',
     icon: 'eva:settings-2-fill',
-    linkTo: '/settings'
+    linkTo: PATH_DASHBOARD.user.settings
   }
 ]
 

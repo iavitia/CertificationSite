@@ -1,5 +1,5 @@
 import './App.css'
-import Router from './routes'
+import Router from './routes/routes'
 import ThemeConfig from './theme'
 import GlobalStyles from './theme/globalStyles'
 

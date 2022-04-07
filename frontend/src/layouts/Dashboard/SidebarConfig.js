@@ -1,5 +1,7 @@
 // components
 import { Iconify } from '../../components'
+// routes
+import { PATH_DASHBOARD, PATH_COMPANY } from '../../routes/paths'
 
 const getIcon = (name) => (
   <Iconify icon={name} sx={{ width: '100%', height: '100%' }} />
@@ -19,12 +21,12 @@ const sidebarConfig = [
     items: [
       {
         title: 'practice',
-        path: '/study',
+        path: PATH_DASHBOARD.practice.study,
         icon: ICONS.practice
       },
       {
         title: 'contribute',
-        path: '/contribute',
+        path: PATH_DASHBOARD.practice.contribute,
         icon: ICONS.contribute
       }
     ]
@@ -40,9 +42,9 @@ const sidebarConfig = [
         title: 'company',
         icon: ICONS.about,
         children: [
-          { title: 'about', path: '/about' },
-          { title: 'blog', path: '/blog' },
-          { title: 'contact', path: '/contact' }
+          { title: 'about', path: PATH_COMPANY.about },
+          { title: 'blog', path: PATH_COMPANY.blog },
+          { title: 'contact', path: PATH_COMPANY.contact }
         ]
       }
     ]
