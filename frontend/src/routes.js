@@ -17,8 +17,9 @@ export default function Router() {
         }
       >
         <Route path="study" element={<Study />} />
-        <Route path="study/new" element={<NewStudyQuestion />} />
+        <Route path="contribute" element={<NewStudyQuestion />} />
         <Route path="profile" element={<Profile />} />
+        <Route path="settings" element={<h1>settings</h1>} />
       </Route>
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
