@@ -1,5 +1,7 @@
 import { useRef, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
+// context
+import { useAppContext } from '../../context/appContext'
 // material
 import { alpha } from '@mui/material/styles'
 import { Box, Divider, MenuItem, Avatar, IconButton } from '@mui/material'
@@ -27,6 +29,7 @@ const MENU_OPTIONS = [
 export default function AccountPopover() {
   const anchorRef = useRef(null)
   const [open, setOpen] = useState(false)
+  const { logout } = useAppContext()
 
   const handleOpen = () => {
     setOpen(true)
@@ -94,9 +97,7 @@ export default function AccountPopover() {
         <Box sx={{ mb: 1.5 }}>
           <MenuItem
             key={'Logout'}
-            to={'/'}
-            component={RouterLink}
-            onClick={handleClose}
+            onClick={logout}
             sx={{ typography: 'body2', py: 1, px: 2.5 }}
           >
             <Iconify

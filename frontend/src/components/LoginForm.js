@@ -18,7 +18,7 @@ import { useAppContext } from '../context/appContext'
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false)
   const navigate = useNavigate()
-  const { loginUser } = useAppContext()
+  const { login } = useAppContext()
 
   const LoginSchema = Yup.object().shape({
     username: Yup.string().required('Username is required'),
@@ -37,8 +37,8 @@ const LoginForm = () => {
         password: values.password
       }
       try {
-        await loginUser(currentUser)
-        navigate('/dashboard', { replace: true })
+        await login(currentUser)
+        navigate('/', { replace: true })
       } catch (error) {
         setErrors({ afterSubmit: error.response.data.msg })
         setSubmitting(false)

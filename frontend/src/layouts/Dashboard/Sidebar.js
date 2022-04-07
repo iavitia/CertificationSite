@@ -32,9 +32,7 @@ const RootStyle = styled('div')(({ theme }) => ({
 function IconCollapse({ onToggleCollapse, collapseClick }) {
   return (
     <IconButton onClick={onToggleCollapse}>
-      <Icon
-        icon={collapseClick === true ? arrowheadRightFill : arrowheadLeftFill}
-      />
+      <Icon icon={collapseClick ? arrowheadRightFill : arrowheadLeftFill} />
     </IconButton>
   )
 }

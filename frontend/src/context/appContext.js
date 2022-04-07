@@ -1,7 +1,7 @@
 import { useReducer, useContext, createContext } from 'react'
 import axios from 'axios'
 import reducer from './reducer'
-import { DISPLAY_ALERT, REGISTER, LOGIN } from './actions'
+import { DISPLAY_ALERT, REGISTER, LOGIN, LOGOUT } from './actions'
 
 const token = localStorage.getItem('token')
 const user = localStorage.getItem('user')
@@ -46,7 +46,7 @@ const AppProvider = ({ children }) => {
     addUserToLocalStorage({ user, token })
   }
 
-  const loginUser = async (currentUser) => {
+  const login = async (currentUser) => {
     const { data } = await axios.post('/api/v1/auth/login', currentUser)
     const { user, token } = data
 
@@ -58,9 +58,14 @@ const AppProvider = ({ children }) => {
     addUserToLocalStorage({ user, token })
   }
 
+  const logout = () => {
+    dispatch({ type: LOGOUT })
+    removeUserFromLocalStorage()
+  }
+
   return (
     <AppContext.Provider
-      value={{ ...state, displayAlert, registerUser, loginUser }}
+      value={{ ...state, displayAlert, registerUser, login, logout }}
     >
       {children}
     </AppContext.Provider>
