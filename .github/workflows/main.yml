@@ -17,3 +17,4 @@ jobs:
           start: npm start
           project: CertificationSite/frontend
           wait-on: 'http://localhost:3000'
+          wait-on-timeout: 120
