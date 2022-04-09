@@ -10,6 +10,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      
+      - name: Create .env file
+        run: |
+          touch .env
+          echo PORT=${{ secrets.PORT }} >> .env
+          echo MONGO_URL=${{ secrets.MONGO_URL }} >> .env
+          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
+          echo JWT_LIFETIME=${{ secrets.JWT_LIFETIME }} >> .env
 
       - name: Cypress.io
         uses: cypress-io/github-action@v2.9.7
@@ -20,4 +28,3 @@ jobs:
           wait-on-timeout: 120
           browser: chrome
           headless: true
-          env: PORT=5000, MONGO_URL=MONGO_URL, JWT_SECRET=JWT_SECRET, JWT_LIFETIME=JWT_LIFETIME
