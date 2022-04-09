@@ -13,7 +13,7 @@ describe('Login', () => {
       cy.sel('email').type(`TestEmail${randomNum}@test.com`)
       cy.sel('password').type(data.password)
       cy.sel('submitRegister').click()
-      cy.url().should('include', '/dashboard')
+      cy.url().should('include', '/')
     })
   })
 
