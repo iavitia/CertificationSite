@@ -19,15 +19,6 @@ jobs:
           echo JWT_SECRET="${{ secrets.JWT_SECRET }}" >> .env
           echo JWT_LIFETIME="${{ secrets.JWT_LIFETIME }}" >> .env
           ls
-        
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v3.1.0
-      
-      - name: Install dependencies
-        run: npm install
-        
-      - name: Start application
-        run: npm start
 
       - name: Cypress.io
         uses: cypress-io/github-action@v2.9.7
