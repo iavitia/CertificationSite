@@ -11,9 +11,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v3.1.0
-
       - name: Cypress.io
         uses: cypress-io/github-action@v2.9.7
         with:
