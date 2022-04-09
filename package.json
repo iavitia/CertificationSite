@@ -6,7 +6,7 @@
   "scripts": {
     "server": "nodemon server --ignore frontend",
     "client": "npm start --prefix frontend",
-    "start": "--unhandled-rejections=strict concurrently --kill-others-on-fail \"npm run server\" \" npm run client \""
+    "start": "concurrently --kill-others-on-fail \"npm run server\" \" npm run client \""
   },
   "keywords": [],
   "author": "",
