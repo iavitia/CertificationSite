@@ -23,6 +23,7 @@ jobs:
       - name: Cypress.io
         uses: cypress-io/github-action@v2.9.7
         with:
+          start: npm start
           working-directory: frontend
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 120
