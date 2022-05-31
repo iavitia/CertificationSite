@@ -9,7 +9,9 @@ import {
   TextField,
   InputAdornment,
   IconButton,
-  Alert
+  Alert,
+  Typography,
+  Link
 } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 import Iconify from './Iconify'
@@ -53,7 +55,7 @@ const Register = () => {
       }
       try {
         await registerUser(currentUser)
-        navigate('/dashboard', { replace: true })
+        navigate('/', { replace: true })
       } catch (error) {
         setErrors({ afterSubmit: error.response.data.msg })
         setSubmitting(false)
@@ -114,6 +116,22 @@ const Register = () => {
             error={Boolean(touched.password && errors.password)}
             helperText={touched.password && errors.password}
           />
+
+          <Typography
+            variant="body2"
+            align="left"
+            sx={{ color: 'text.disabled', mt: 3 }}
+          >
+            By registering, I agree to the&nbsp;
+            <Link underline="always" color="text.disabled">
+              Terms of Service
+            </Link>
+            &nbsp;and&nbsp;
+            <Link underline="always" color="text.disabled">
+              Privacy Policy
+            </Link>
+            .
+          </Typography>
 
           <LoadingButton
             data-cy="submitRegister"
