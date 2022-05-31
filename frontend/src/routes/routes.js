@@ -1,7 +1,8 @@
 import { Routes, Route } from 'react-router-dom'
 //pages
 import { Study, NewStudyQuestion, Profile } from '../pages/dashboard'
-import { Page404, Register, Login, ProtectedRoute } from '../pages'
+import { Page404, ProtectedRoute } from '../pages'
+import { Login, Register } from '../pages/authentication'
 // Layouts
 import DashboardLayout from '../layouts/Dashboard'
 
