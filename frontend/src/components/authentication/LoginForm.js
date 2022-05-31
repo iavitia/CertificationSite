@@ -7,54 +7,37 @@ import { useFormik, Form, FormikProvider } from 'formik'
 import {
   Stack,
   TextField,
-  InputAdornment,
   IconButton,
-  Alert,
-  Typography,
-  Link
+  InputAdornment,
+  Alert
 } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
-import Iconify from './Iconify'
-import { useAppContext } from '../context/appContext'
+import Iconify from '../Iconify'
+import { useAppContext } from '../../context/appContext'
 
-const Register = () => {
-  const navigate = useNavigate()
+const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false)
-  const { registerUser } = useAppContext()
+  const navigate = useNavigate()
+  const { login } = useAppContext()
 
-  const RegisterSchema = Yup.object().shape({
-    username: Yup.string()
-      .required('Username is required')
-      .min(3, 'Username must be at least 3 characters')
-      .max(20, 'Username cannot be longer than 20 characters')
-      .matches(
-        /^[A-Za-z0-9_-]*$/,
-        'Letters, numbers, dashes, and underscores only. Please try again without symbols.'
-      ),
-    email: Yup.string()
-      .required('Email is required')
-      .email('Enter a valid email address'),
-    password: Yup.string()
-      .required('Password is required')
-      .min(8, 'Password must be at least 8 characters')
-      .max(64, 'Password cannot be longer than 64 characters')
+  const LoginSchema = Yup.object().shape({
+    username: Yup.string().required('Username is required'),
+    password: Yup.string().required('Password is required')
   })
 
   const formik = useFormik({
     initialValues: {
       username: '',
-      email: '',
       password: ''
     },
-    validationSchema: RegisterSchema,
+    validationSchema: LoginSchema,
     onSubmit: async (values, { setErrors, setSubmitting }) => {
       const currentUser = {
         username: values.username,
-        email: values.email,
         password: values.password
       }
       try {
-        await registerUser(currentUser)
+        await login(currentUser)
         navigate('/', { replace: true })
       } catch (error) {
         setErrors({ afterSubmit: error.response.data.msg })
@@ -63,7 +46,11 @@ const Register = () => {
     }
   })
 
-  const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik
+  const handleShowPassword = () => {
+    setShowPassword((show) => !show)
+  }
+
+  const { errors, touched, isSubmitting, handleSubmit, getFieldProps } = formik
 
   return (
     <FormikProvider value={formik}>
@@ -76,6 +63,7 @@ const Register = () => {
           <TextField
             data-cy="username"
             fullWidth
+            autoComplete="username"
             label="Username"
             {...getFieldProps('username')}
             error={Boolean(touched.username && errors.username)}
@@ -83,29 +71,16 @@ const Register = () => {
           />
 
           <TextField
-            data-cy="email"
-            fullWidth
-            autoComplete="email"
-            type="email"
-            label="Email address"
-            {...getFieldProps('email')}
-            error={Boolean(touched.email && errors.email)}
-            helperText={touched.email && errors.email}
-          />
-
-          <TextField
             data-cy="password"
             fullWidth
+            autoComplete="current-password"
             type={showPassword ? 'text' : 'password'}
             label="Password"
             {...getFieldProps('password')}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton
-                    edge="end"
-                    onClick={() => setShowPassword((prev) => !prev)}
-                  >
+                  <IconButton onClick={handleShowPassword} edge="end">
                     <Iconify
                       icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'}
                     />
@@ -117,31 +92,15 @@ const Register = () => {
             helperText={touched.password && errors.password}
           />
 
-          <Typography
-            variant="body2"
-            align="left"
-            sx={{ color: 'text.disabled', mt: 3 }}
-          >
-            By registering, I agree to the&nbsp;
-            <Link underline="always" color="text.disabled">
-              Terms of Service
-            </Link>
-            &nbsp;and&nbsp;
-            <Link underline="always" color="text.disabled">
-              Privacy Policy
-            </Link>
-            .
-          </Typography>
-
           <LoadingButton
-            data-cy="submitRegister"
+            data-cy="submitLogin"
             fullWidth
             size="large"
             type="submit"
             variant="contained"
             loading={isSubmitting}
           >
-            Register
+            Login
           </LoadingButton>
         </Stack>
       </Form>
@@ -149,4 +108,4 @@ const Register = () => {
   )
 }
 
-export default Register
+export default LoginForm

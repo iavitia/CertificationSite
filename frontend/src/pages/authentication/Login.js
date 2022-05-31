@@ -5,7 +5,7 @@ import { Stack, Link, Container, Typography } from '@mui/material'
 // layouts
 import AuthLayout from '../../layouts/AuthLayout'
 // components
-import { LoginForm } from '../../components'
+import { LoginForm } from '../../components/authentication'
 import Page from '../../components/Page'
 // routes
 import { PATH_AUTH } from '../../routes/paths'

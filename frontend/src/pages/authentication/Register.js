@@ -5,7 +5,7 @@ import { styled } from '@mui/material/styles'
 // layouts
 import AuthLayout from '../../layouts/AuthLayout'
 // components
-import { RegisterForm } from '../../components'
+import { RegisterForm } from '../../components/authentication'
 import Page from '../../components/Page'
 // routes
 import { PATH_AUTH } from '../../routes/paths'
