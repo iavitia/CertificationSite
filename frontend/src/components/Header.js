@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material'
 
-export default function HeaderBreadcrumbs({ heading, sx, ...other }) {
+export default function Header({ heading, sx, ...other }) {
   return (
     <Box sx={{ mb: 5, ...sx }}>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>

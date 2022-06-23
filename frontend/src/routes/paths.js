@@ -18,7 +18,7 @@ export const PATH_AUTH = {
 export const PATH_DASHBOARD = {
   root: '/',
   practice: {
-    study: '/study',
+    study: '/practice',
     contribute: '/contribute'
   },
   user: {
