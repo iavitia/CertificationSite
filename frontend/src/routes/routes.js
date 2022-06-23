@@ -1,10 +1,11 @@
 import { Routes, Route } from 'react-router-dom'
 //pages
-import { Study, NewStudyQuestion, Profile } from '../pages/dashboard'
+import { NewStudyQuestion, PracticePost, Profile } from '../pages/dashboard'
 import { Page404, ProtectedRoute } from '../pages'
 import { Login, Register } from '../pages/authentication'
 // Layouts
 import DashboardLayout from '../layouts/Dashboard'
+import MainLayout from '../layouts/Main'
 
 export default function Router() {
   return (
@@ -17,7 +18,7 @@ export default function Router() {
           </ProtectedRoute>
         }
       >
-        <Route path="study" element={<Study />} />
+        <Route path="practice" element={<PracticePost />} />
         <Route path="contribute" element={<NewStudyQuestion />} />
         <Route path="profile" element={<Profile />} />
         <Route path="settings" element={<h1>settings</h1>} />
