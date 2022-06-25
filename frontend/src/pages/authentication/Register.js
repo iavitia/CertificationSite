@@ -22,7 +22,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
   display: 'flex',
   minHeight: '100vh',
   flexDirection: 'column',
-  padding: theme.spacing(20, 0)
+  padding: theme.spacing(30, 0)
 }))
 
 const Landing = () => {
