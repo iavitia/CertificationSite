@@ -5,7 +5,6 @@ import { Page404, ProtectedRoute } from '../pages'
 import { Login, Register } from '../pages/authentication'
 // Layouts
 import DashboardLayout from '../layouts/Dashboard'
-import MainLayout from '../layouts/Main'
 
 export default function Router() {
   return (
