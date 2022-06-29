@@ -1,3 +1,4 @@
+export { default as CopyClipboard } from './CopyClipboard'
 export { default as Header } from './Header'
 export { default as Iconify } from './Iconify'
 export { default as Label } from './Label'
