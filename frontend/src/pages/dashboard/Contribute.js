@@ -1,12 +1,19 @@
+// material
+import { Container } from '@mui/material'
 // components
 import { Header, Page } from '../../components'
+import { ContributeForm } from '../../components/dashboard/contribute'
 
-const Contribute = () => {
+// ----------------------------------------------------------------------
+
+export default function Contribute() {
   return (
     <Page title="Contribute | Certification">
-      <Header heading="New Study Question" />
+      <Container maxWidth="lg">
+        <Header heading="Create a new study question" />
+
+        <ContributeForm />
+      </Container>
     </Page>
   )
 }
-
-export default Contribute
