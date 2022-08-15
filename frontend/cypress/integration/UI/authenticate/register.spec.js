@@ -1,7 +1,10 @@
 /// <reference types="cypress"/>
+
 import faker from '@faker-js/faker'
+import Register from '../../../pages/register.page'
 
 describe('Login', () => {
+  const reg = new Register()
   let randomNum = faker.random.number({ min: 10, max: 100 })
   beforeEach(() => {
     cy.visit('/register')
@@ -9,20 +12,20 @@ describe('Login', () => {
 
   it('Register successful', () => {
     cy.fixture('userData').then((data) => {
-      cy.sel('username').type(data.username + randomNum)
-      cy.sel('email').type(`TestEmail${randomNum}@test.com`)
-      cy.sel('password').type(data.password)
-      cy.sel('submitRegister').click()
-      cy.url().should('include', '/')
+      reg.register(
+        data.username + randomNum,
+        `TestEmail${randomNum}@test.com`,
+        data.password
+      )
+
+      cy.url().should('equal', Cypress.config('baseUrl'))
     })
   })
 
   it('Empty input errors', () => {
-    cy.url().should('contain', '/register')
+    reg.submit().click()
 
-    cy.sel('submitRegister').click()
-
-    cy.url().should('contain', '/register')
+    cy.url().should('contain', reg.url)
     cy.muiError(1, 'Username is required')
     cy.muiError(2, 'Email is required')
     cy.muiError(3, 'Password is required')
@@ -30,10 +33,7 @@ describe('Login', () => {
 
   it('Username - invalid special characters', () => {
     cy.fixture('userData').then((data) => {
-      cy.sel('username').type(data.usernameBadChar)
-      cy.sel('email').type(data.email)
-      cy.sel('password').type(data.password)
-      cy.sel('submitRegister').click()
+      reg.register(data.usernameBadChar, data.email, data.password)
 
       cy.muiError(
         1,
@@ -44,20 +44,14 @@ describe('Login', () => {
 
   it('Username - too short', () => {
     cy.fixture('userData').then((data) => {
-      cy.sel('username').type(data.usernameShort)
-      cy.sel('email').click().type(data.email)
-      cy.sel('password').type(data.password)
-      cy.sel('submitRegister').click()
+      reg.register(data.usernameShort, data.emailBad, data.password)
 
       cy.muiError(1, 'Username must be at least 3 characters')
     })
   })
   it('Username - too long', () => {
     cy.fixture('userData').then((data) => {
-      cy.sel('username').type(data.usernameLong)
-      cy.sel('email').click().type(data.email)
-      cy.sel('password').type(data.password)
-      cy.sel('submitRegister').click()
+      reg.register(data.usernameLong, data.email, data.password)
 
       cy.muiError(1, 'Username cannot be longer than 20 characters')
     })
@@ -65,21 +59,15 @@ describe('Login', () => {
 
   it('Email - invalid email', () => {
     cy.fixture('userData').then((data) => {
-      cy.sel('username').type(data.username)
-      cy.sel('email').click().type(data.emailBad)
-      cy.sel('password').type(data.password)
-      cy.sel('submitRegister').click()
+      reg.register(data.username, data.emailBad, data.password)
 
       cy.muiError(2, 'Enter a valid email address')
     })
   })
 
-  it('Password - Too short', () => {
+  it('Password - too short', () => {
     cy.fixture('userData').then((data) => {
-      cy.sel('username').type(data.username)
-      cy.sel('email').click().type(data.email)
-      cy.sel('password').type(data.passwordShort)
-      cy.sel('submitRegister').click()
+      reg.register(data.username, data.email, data.passwordShort)
 
       cy.muiError(3, 'Password must be at least 8 characters')
     })
