@@ -1,6 +1,6 @@
 /// <reference types="cypress"/>
 
-import Login from '../../pages/login.page'
+import Login from '../../../pages/login.page'
 
 describe('Login', () => {
   const login = new Login()
