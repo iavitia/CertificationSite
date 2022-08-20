@@ -57,7 +57,9 @@ const LoginForm = () => {
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
           {errors.afterSubmit && (
-            <Alert severity="error">{errors.afterSubmit}</Alert>
+            <Alert severity="error" data-cy="loginError">
+              {errors.afterSubmit}
+            </Alert>
           )}
 
           <TextField
@@ -80,7 +82,11 @@ const LoginForm = () => {
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton onClick={handleShowPassword} edge="end">
+                  <IconButton
+                    onClick={handleShowPassword}
+                    edge="end"
+                    data-cy="showPassword"
+                  >
                     <Iconify
                       icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'}
                     />
