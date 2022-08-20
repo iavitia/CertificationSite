@@ -1,6 +1,6 @@
 name: Cypress Tests
 
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
   cypress-run:
@@ -24,7 +24,6 @@ jobs:
           build: npm run build
           start: npm start
           runTests: false
-          working-directory: frontend
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 120
           
