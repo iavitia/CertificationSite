@@ -1,8 +1,6 @@
 name: Cypress Tests
 
-on:
-  push:
-    branches: [development]
+on: [push, pull_request]
 
 jobs:
   cypress-run:
