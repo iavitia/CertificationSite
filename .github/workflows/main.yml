@@ -18,10 +18,13 @@ jobs:
           echo JWT_LIFETIME="${{ secrets.JWT_LIFETIME }}" >> .env
           ls
           
+      - name: Install NPM
+        run: npm install
+          
       - name: Cypress run tests
         uses: cypress-io/github-action@v2.9.7
         with:
-          build: npm install, cd frondent && npm run build
+          build: cd frondent && npm run build
           start: node server, cd frontend && npm start
           wait-on: 'http://localhost:3000, http://localhost:5000'
           wait-on-timeout: 120
