@@ -1,6 +1,11 @@
 import { Routes, Route } from 'react-router-dom'
 //pages
-import { Contribute, PracticePost, Profile } from '../pages/dashboard'
+import {
+  Contribute,
+  PracticePost,
+  Profile,
+  UserSettings
+} from '../pages/dashboard'
 import { Contact, LandingPage, Page404 } from '../pages'
 import { Login, Register } from '../pages/authentication'
 // Layouts
@@ -44,7 +49,7 @@ export default function Router() {
         <Route path="practice" element={<PracticePost />} />
         <Route path="contribute" element={<Contribute />} />
         <Route path="profile" element={<Profile />} />
-        <Route path="settings" element={<h1>settings</h1>} />
+        <Route path="settings" element={<UserSettings />} />
       </Route>
 
       {/* Main */}
