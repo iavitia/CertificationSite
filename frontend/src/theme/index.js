@@ -20,8 +20,8 @@ export default function ThemeConfig({ children }) {
       shape,
       typography,
       breakpoints,
-      shadows,
-      customShadows,
+      shadows: shadows.light,
+      customShadows: customShadows.light,
       palette
     }),
     []
