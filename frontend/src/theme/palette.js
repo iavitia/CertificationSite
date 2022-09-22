@@ -45,35 +45,35 @@ const SECONDARY = {
   contrastText: '#fff'
 }
 const INFO = {
-  lighter: '#D1FFFE',
-  light: '#75ECFF',
-  main: '#19C1FF',
-  dark: '#0C71B7',
-  darker: '#043A7A',
+  lighter: '#D0F2FF',
+  light: '#74CAFF',
+  main: '#1890FF',
+  dark: '#0C53B7',
+  darker: '#04297A',
   contrastText: '#fff'
 }
 const SUCCESS = {
-  lighter: '#D2FDD6',
-  light: '#77F89E',
-  main: '#20E884',
-  dark: '#10A779',
-  darker: '#066F64',
+  lighter: '#E9FCD4',
+  light: '#AAF27F',
+  main: '#54D62C',
+  dark: '#229A16',
+  darker: '#08660D',
   contrastText: GREY[800]
 }
 const WARNING = {
-  lighter: '#FFFDDC',
-  light: '#FFF796',
-  main: '#FFF051',
-  dark: '#B7A828',
-  darker: '#7A6D0F',
+  lighter: '#FFF7CD',
+  light: '#FFE16A',
+  main: '#FFC107',
+  dark: '#B78103',
+  darker: '#7A4F01',
   contrastText: GREY[800]
 }
 const ERROR = {
-  lighter: '#FFECDE',
-  light: '#FFB69C',
-  main: '#FF6C5B',
-  dark: '#B72D35',
-  darker: '#7A1128',
+  lighter: '#FFE7D9',
+  light: '#FFA48D',
+  main: '#FF4842',
+  dark: '#B72136',
+  darker: '#7A0C2E',
   contrastText: '#fff'
 }
 
