@@ -99,6 +99,7 @@ const LoginForm = () => {
           />
 
           <LoadingButton
+            color="secondary"
             data-cy="submitLogin"
             fullWidth
             size="large"

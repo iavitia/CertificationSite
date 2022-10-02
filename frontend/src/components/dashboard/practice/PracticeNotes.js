@@ -7,7 +7,7 @@ export default function PracticeNotes() {
   return (
     <Card>
       <CardContent>
-        <Typography variant="body">
+        <Typography variant="body1">
           C is correct. As a senior citizen, you should be checking that the
           size of the instruction text is clearly readable and you should verify
           that the instructions will make sense to a senior citizen. A is not

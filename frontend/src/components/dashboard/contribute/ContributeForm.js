@@ -206,6 +206,7 @@ export default function ContributeForm() {
                 sx={{ mt: 3 }}
               >
                 <LoadingButton
+                  color="secondary"
                   fullWidth
                   type="submit"
                   variant="contained"

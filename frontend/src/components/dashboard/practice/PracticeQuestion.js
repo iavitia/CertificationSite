@@ -67,7 +67,7 @@ export default function PracticeQuestion() {
   return (
     <Card>
       <CardContent>
-        <Typography variant="body">
+        <Typography variant="body1">
           You are participating in a role-based review session. Your assigned
           role is that of a senior citizen. The product is an online banking
           application that is targeted for use on smart phones. You are
@@ -100,7 +100,12 @@ export default function PracticeQuestion() {
                 alignItems="center"
                 sx={{ pt: 3 }}
               >
-                <Button size="large" variant="outlined" type="submit">
+                <Button
+                  size="large"
+                  variant="contained"
+                  color="secondary"
+                  type="submit"
+                >
                   Submit
                 </Button>
               </Stack>

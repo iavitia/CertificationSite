@@ -134,6 +134,7 @@ const Register = () => {
           </Typography>
 
           <LoadingButton
+            color="secondary"
             data-cy="submitRegister"
             fullWidth
             size="large"

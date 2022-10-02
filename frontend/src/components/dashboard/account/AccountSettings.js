@@ -129,6 +129,7 @@ export default function AccountSettings() {
 
               <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end' }}>
                 <LoadingButton
+                  color="secondary"
                   type="submit"
                   variant="contained"
                   loading={isSubmitting}
