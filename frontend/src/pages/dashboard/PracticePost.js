@@ -26,7 +26,7 @@ export default function Practice() {
       component: <PracticeQuestion />
     },
     {
-      value: 'notes',
+      value: 'solution',
       icon: <Icon icon={stickyNote} />,
       component: <PracticeNotes />
     },
@@ -51,14 +51,13 @@ export default function Practice() {
           dislikes={30}
         />
 
-        <Stack spacing={5} sx={{ fontWeight: 300 }}>
+        <Stack spacing={5} sx={{ pt: 1.5 }}>
           <Tabs
             value={currentTab}
             scrollButtons="auto"
             variant="scrollable"
             allowScrollButtonsMobile
             onChange={handleChangeTab}
-            sx={{ fontWeight: 300 }}
           >
             {ACCOUNT_TABS.map((tab) => (
               <Tab
@@ -68,20 +67,13 @@ export default function Practice() {
                 icon={tab.icon}
                 iconPosition="start"
                 value={tab.value}
-                sx={{ fontWeight: 300 }}
               />
             ))}
           </Tabs>
 
           {ACCOUNT_TABS.map((tab) => {
             const isMatched = tab.value === currentTab
-            return (
-              isMatched && (
-                <Box key={tab.value} sx={{ marginTop: '0 !important' }}>
-                  {tab.component}
-                </Box>
-              )
-            )
+            return isMatched && <Box key={tab.value}>{tab.component}</Box>
           })}
         </Stack>
       </Container>

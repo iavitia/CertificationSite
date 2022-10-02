@@ -7,7 +7,7 @@ export default function PracticeDiscussion() {
   return (
     <Card>
       <CardContent>
-        <Typography variant="body">Area for comments</Typography>
+        <Typography variant="body1">Area for comments</Typography>
       </CardContent>
     </Card>
   )

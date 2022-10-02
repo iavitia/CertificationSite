@@ -38,7 +38,7 @@ export default function PracticeHeader({
         <Stack direction="row" alignItems="center" spacing={3}>
           <ItemBlockStyle>
             <Label
-              variant="plain"
+              variant="ghost"
               color={
                 (difficulty.toLowerCase() === 'hard' && 'error') ||
                 (difficulty.toLowerCase() === 'medium' && 'warning') ||
