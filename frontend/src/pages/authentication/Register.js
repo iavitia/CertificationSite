@@ -2,8 +2,6 @@ import { Link as RouterLink } from 'react-router-dom'
 // material
 import { Box, Link, Container, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
-// layouts
-import AuthLayout from '../../layouts/AuthLayout'
 // components
 import { RegisterForm } from '../../components/authentication'
 import Page from '../../components/Page'
@@ -20,16 +18,13 @@ const ContentStyle = styled('div')(({ theme }) => ({
   maxWidth: 480,
   margin: 'auto',
   display: 'flex',
-  minHeight: '100vh',
   flexDirection: 'column',
-  padding: theme.spacing(30, 0)
+  padding: theme.spacing(3, 0)
 }))
 
 const Landing = () => {
   return (
     <RootStyle title="Register | Certification">
-      <AuthLayout />
-
       <Container>
         <ContentStyle>
           <Box sx={{ mb: 3 }}>

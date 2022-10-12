@@ -59,21 +59,16 @@ export default function Router() {
 
       {/* Authentication */}
       <Route
-        path="/register"
+        path="/"
         element={
           <GuestGuard>
-            <Register />
+            <MainLayout />
           </GuestGuard>
         }
-      />
-      <Route
-        path="/login"
-        element={
-          <GuestGuard>
-            <Login />
-          </GuestGuard>
-        }
-      />
+      >
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+      </Route>
 
       {/* Misc */}
       <Route path="*" element={<LogoOnlyLayout />}>
