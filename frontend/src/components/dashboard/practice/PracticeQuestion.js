@@ -16,15 +16,6 @@ import {
 
 // ----------------------------------------------------------------------
 
-const OPTIONS = [
-  'The speed of response from the banking backend',
-  'The attractiveness of the application',
-  'The size and clarity of the instruction text',
-  'The reliability of the application when the connection is dropped'
-]
-
-// ----------------------------------------------------------------------
-
 function OptionItem({ option, checked, formik, ...other }) {
   const { getFieldProps } = formik
 
@@ -45,7 +36,7 @@ function OptionItem({ option, checked, formik, ...other }) {
   )
 }
 
-export default function PracticeQuestion() {
+export default function PracticeQuestion({ question, multipleChoice }) {
   const FormValidation = Yup.object().shape({
     checked: Yup.array().min(1, 'Must select at least one option')
   })
@@ -58,7 +49,7 @@ export default function PracticeQuestion() {
     validateOnChange: false,
     validateOnBlur: false,
     onSubmit: (values) => {
-      console.log(values)
+      console.log(values.checked)
     }
   })
 
@@ -67,24 +58,17 @@ export default function PracticeQuestion() {
   return (
     <Card>
       <CardContent>
-        <Typography variant="body1">
-          You are participating in a role-based review session. Your assigned
-          role is that of a senior citizen. The product is an online banking
-          application that is targeted for use on smart phones. You are
-          currently reviewing the user interface of the product with a prototype
-          that works on iPhones. Which of the following is an area that you
-          should review?
-        </Typography>
+        <Typography variant="body1">{question}</Typography>
 
         <Box sx={{ pl: { xs: 0, md: 2 }, pt: 2 }}>
           <FormikProvider value={formik}>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-              {OPTIONS.map((option) => (
+              {multipleChoice.map((option) => (
                 <OptionItem
-                  key={option}
-                  option={option}
+                  key={option.id}
+                  option={option.choice}
                   formik={formik}
-                  checked={values.checked.includes(option)}
+                  checked={values.checked.includes(option.choice)}
                 />
               ))}
 

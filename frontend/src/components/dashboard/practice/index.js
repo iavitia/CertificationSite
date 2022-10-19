@@ -1,3 +1,6 @@
+export { default as PracticeCommentForm } from './PracticeCommentForm'
+export { default as PracticeCommentItem } from './PracticeCommentItem'
+export { default as PracticeCommentList } from './PracticeCommentList'
 export { default as PracticeDiscussion } from './PracticeDiscussion'
 export { default as PracticeHeader } from './PracticeHeader'
 export { default as PracticeNotes } from './PracticeNotes'
