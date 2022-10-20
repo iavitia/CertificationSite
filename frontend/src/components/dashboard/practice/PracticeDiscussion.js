@@ -1,13 +1,19 @@
 // material
-import { Card, CardContent, Typography } from '@mui/material'
+import { Box, Card, CardContent } from '@mui/material'
+// components
+import { PracticeCommentForm, PracticeCommentList } from './'
 
 // ----------------------------------------------------------------------
 
-export default function PracticeDiscussion() {
+export default function PracticeDiscussion(comments) {
   return (
     <Card>
       <CardContent>
-        <Typography variant="body1">Area for comments</Typography>
+        <Box sx={{ mb: 5 }}>
+          <PracticeCommentForm />
+        </Box>
+
+        <PracticeCommentList comments={comments} />
       </CardContent>
     </Card>
   )

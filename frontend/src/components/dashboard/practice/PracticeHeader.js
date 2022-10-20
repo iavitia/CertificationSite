@@ -27,8 +27,8 @@ const ItemIconStyle = styled(Icon)(({ theme }) => ({
 export default function PracticeHeader({
   heading,
   difficulty,
-  likes,
-  dislikes
+  upVotes,
+  downVotes
 }) {
   return (
     <Box>
@@ -50,11 +50,11 @@ export default function PracticeHeader({
           </ItemBlockStyle>
           <ItemBlockStyle>
             <ItemIconStyle icon={thumbUp} />
-            <Typography variant="body2">{likes}</Typography>
+            <Typography variant="body2">{upVotes}</Typography>
           </ItemBlockStyle>
           <ItemBlockStyle>
             <ItemIconStyle icon={thumbDown} />
-            <Typography variant="body2">{dislikes}</Typography>
+            <Typography variant="body2">{downVotes}</Typography>
           </ItemBlockStyle>
         </Stack>
       </Stack>
