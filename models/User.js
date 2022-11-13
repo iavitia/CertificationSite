@@ -19,6 +19,7 @@ const UserSchema = new mongoose.Schema(
     },
     email: {
       type: String,
+      trim: true,
       required: [true, 'Email is required'],
       validate: {
         validator: validator.isEmail,
@@ -35,20 +36,83 @@ const UserSchema = new mongoose.Schema(
       trim: true,
       select: false
     },
-    firstName: {
+    fullName: {
       type: String,
       trim: true,
-      default: ''
-    },
-    lastName: {
-      type: String,
-      trim: true,
+      maxlength: 70,
       default: ''
     },
     location: {
       type: String,
       trim: true,
-      default: ''
+      default: '',
+      maxlength: 100
+    },
+    title: {
+      type: String,
+      trim: true,
+      default: '',
+      maxlength: 100
+    },
+    summary: {
+      type: String,
+      trim: true,
+      default: '',
+      maxlength: 500
+    },
+    social: {
+      website: {
+        type: String,
+        trim: true,
+        default: '',
+        validate(website) {
+          if (website === '') {
+            return true
+          }
+          if (!validator.isURL(website)) {
+            throw new Error('Invalid website URL')
+          }
+        }
+      },
+      github: {
+        type: String,
+        trim: true,
+        default: '',
+        validate(github) {
+          if (github === '') {
+            return true
+          }
+          if (!validator.isURL(github)) {
+            throw new Error('Invalid GitHub URL')
+          }
+        }
+      },
+      linkedIn: {
+        type: String,
+        trim: true,
+        default: '',
+        validate(linkedIn) {
+          if (linkedIn === '') {
+            return true
+          }
+          if (!validator.isURL(linkedIn)) {
+            throw new Error('Invalid LinkedIn URL')
+          }
+        }
+      },
+      twitter: {
+        type: String,
+        trim: true,
+        default: '',
+        validate(twitter) {
+          if (twitter === '') {
+            return true
+          }
+          if (!validator.isURL(twitter)) {
+            throw new Error('Invalid Twitter URL')
+          }
+        }
+      }
     }
   },
   { collation: { locale: 'en', strength: 2 } }

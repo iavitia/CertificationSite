@@ -1,4 +1,4 @@
-import { DISPLAY_ALERT, REGISTER, LOGIN, LOGOUT } from './actions'
+import { DISPLAY_ALERT, REGISTER, LOGIN, LOGOUT, UPDATE_USER } from './actions'
 import { initialState } from './appContext'
 
 const reducer = (state, action) => {
@@ -21,6 +21,10 @@ const reducer = (state, action) => {
 
   if (action.type === LOGOUT) {
     return { ...initialState, user: null, token: null }
+  }
+
+  if (action.type === UPDATE_USER) {
+    return { ...state, token: action.payload.token, user: action.payload.user }
   }
 
   throw new Error(`no such action : ${action.type}`)
