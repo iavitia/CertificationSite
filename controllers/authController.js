@@ -23,9 +23,11 @@ const register = async (req, res) => {
     user: {
       username: user.username,
       email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      location: user.location
+      fullName: user.fullName,
+      location: user.location,
+      title: user.title,
+      summary: user.summary,
+      social: user.social
     },
     token
   })
@@ -54,16 +56,25 @@ const login = async (req, res) => {
 }
 
 const updateUser = async (req, res) => {
-  const { email, firstName, lastName, location } = req.body
-  if (!email || !firstName || !lastName || !location) {
-    throw new BadRequestError('Please provide all values')
+  const { email, fullName, location, title, summary, social } = req.body
+
+  if (!email) {
+    throw new BadRequestError('Email is required')
   }
+
+  const existingEmail = await User.findOne({ email })
+  if (existingEmail) {
+    throw new BadRequestError('Email already in use')
+  }
+
   const user = await User.findOne({ _id: req.user.userId })
 
   user.email = email
-  user.firstName = firstName
-  user.lastName = lastName
+  user.fullName = fullName
   user.location = location
+  user.title = title
+  user.summary = summary
+  user.social = social
 
   await user.save()
 
