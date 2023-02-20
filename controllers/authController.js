@@ -62,11 +62,6 @@ const updateUser = async (req, res) => {
     throw new BadRequestError('Email is required')
   }
 
-  const existingEmail = await User.findOne({ email })
-  if (existingEmail) {
-    throw new BadRequestError('Email already in use')
-  }
-
   const user = await User.findOne({ _id: req.user.userId })
 
   user.email = email
