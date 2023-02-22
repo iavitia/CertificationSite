@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 import {
   Contribute,
   PracticePost,
-  Profile,
+  UserProfile,
   UserSettings
 } from '../pages/dashboard'
 import { Contact, LandingPage, Page404 } from '../pages'
@@ -48,7 +48,7 @@ export default function Router() {
       >
         <Route path="practice" element={<PracticePost />} />
         <Route path="contribute" element={<Contribute />} />
-        <Route path="profile" element={<Profile />} />
+        <Route path="profile" element={<UserProfile />} />
         <Route path="settings" element={<UserSettings />} />
       </Route>
 
