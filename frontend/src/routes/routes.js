@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 import {
   Contribute,
   PracticePost,
+  PracticeAllProblems,
   UserProfile,
   UserSettings
 } from '../pages/dashboard'
@@ -46,6 +47,7 @@ export default function Router() {
           </AuthGuard>
         }
       >
+        <Route path="problems" element={<PracticeAllProblems />} />
         <Route path="practice" element={<PracticePost />} />
         <Route path="contribute" element={<Contribute />} />
         <Route path="profile" element={<UserProfile />} />
