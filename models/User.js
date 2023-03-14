@@ -113,7 +113,8 @@ const UserSchema = new mongoose.Schema(
           }
         }
       }
-    }
+    },
+    date: { type: Date, default: Date.now }
   },
   { collation: { locale: 'en', strength: 2 } }
 )
