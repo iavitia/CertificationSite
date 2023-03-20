@@ -10,6 +10,9 @@ import connectDB from './db/connect.js'
 // routers
 import authRouter from './routes/authRoutes.js'
 import questionRouter from './routes/questionRoutes.js'
+import sectionRouter from './routes/sectionRoutes.js'
+import examRouter from './routes/examRoutes.js'
+import organizationRouter from './routes/organizationRoutes.js'
 // middleware
 import notFoundMiddleware from './middleware/not-found.js'
 import errorHandlerMiddleware from './middleware/error-handler.js'
@@ -31,6 +34,9 @@ app.get('/api/v1', (req, res) => {
 
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/questions', authenticateUser, questionRouter)
+app.use('/api/v1/sections', authenticateUser, sectionRouter)
+app.use('/api/v1/organizations', authenticateUser, organizationRouter)
+app.use('/api/v1/exams', authenticateUser, examRouter)
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
