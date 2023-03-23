@@ -61,12 +61,25 @@ const createQuestion = async (req, res) => {
   }
 }
 
-const deleteQuestion = async (req, res) => {
-  res.send('delete question')
+const getAllQuestions = async (req, res) => {
+  try {
+    const questions = await Question.find({})
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: 'Questions fetched successfully',
+      questions
+    })
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: 'Failed to fetch questions',
+      error: error.message
+    })
+  }
 }
 
-const getAllQuestions = async (req, res) => {
-  res.send('get all questions')
+const deleteQuestion = async (req, res) => {
+  res.send('delete question')
 }
 
 const updateQuestion = async (req, res) => {

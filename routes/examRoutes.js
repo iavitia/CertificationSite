@@ -1,8 +1,8 @@
 import express from 'express'
-import { createExam } from '../controllers/examController.js'
+import { createExam, getAllExams } from '../controllers/examController.js'
 
 const router = express.Router()
 
-router.route('/').post(createExam)
+router.route('/').post(createExam).get(getAllExams)
 
 export default router

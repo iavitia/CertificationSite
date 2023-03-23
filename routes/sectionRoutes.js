@@ -1,8 +1,11 @@
 import express from 'express'
-import { createSection } from '../controllers/sectionController.js'
+import {
+  createSection,
+  getAllSections
+} from '../controllers/sectionController.js'
 
 const router = express.Router()
 
-router.route('/').post(createSection)
+router.route('/').post(createSection).get(getAllSections)
 
 export default router

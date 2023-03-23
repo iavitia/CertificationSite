@@ -42,4 +42,21 @@ const createExam = async (req, res) => {
   }
 }
 
-export { createExam }
+const getAllExams = async (req, res) => {
+  try {
+    const exams = await Exam.find({})
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: 'Exams fetched successfully',
+      exams
+    })
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: 'Failed to fetch exams',
+      error: error.message
+    })
+  }
+}
+
+export { createExam, getAllExams }

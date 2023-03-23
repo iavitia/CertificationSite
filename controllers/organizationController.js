@@ -38,4 +38,21 @@ const createOrganization = async (req, res) => {
   }
 }
 
-export { createOrganization }
+const getAllOrganizations = async (req, res) => {
+  try {
+    const organizations = await Organization.find({})
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: 'Organizations fetched successfully',
+      organizations
+    })
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: 'Failed to fetch organizations',
+      error: error.message
+    })
+  }
+}
+
+export { createOrganization, getAllOrganizations }

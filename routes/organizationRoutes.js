@@ -1,8 +1,11 @@
 import express from 'express'
-import { createOrganization } from '../controllers/organizationController.js'
+import {
+  createOrganization,
+  getAllOrganizations
+} from '../controllers/organizationController.js'
 
 const router = express.Router()
 
-router.route('/').post(createOrganization)
+router.route('/').post(createOrganization).get(getAllOrganizations)
 
 export default router

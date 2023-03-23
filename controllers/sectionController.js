@@ -54,4 +54,21 @@ const createSection = async (req, res) => {
   }
 }
 
-export { createSection }
+const getAllSections = async (req, res) => {
+  try {
+    const sections = await Section.find({})
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: 'Sections fetched successfully',
+      sections
+    })
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: 'Failed to fetch sections',
+      error: error.message
+    })
+  }
+}
+
+export { createSection, getAllSections }
