@@ -1,6 +1,7 @@
 import { Question, Section } from '../models/Certifications.js'
 import { StatusCodes } from 'http-status-codes'
 import { BadRequestError } from '../errors/index.js'
+import mongoose from 'mongoose'
 
 const createQuestion = async (req, res) => {
   try {
@@ -28,6 +29,28 @@ const createQuestion = async (req, res) => {
       )
     }
 
+    // validate that the section ID is valid
+    const isValidSectionId = mongoose.Types.ObjectId.isValid(sectionId)
+    if (!isValidSectionId) {
+      throw new BadRequestError('Invalid section ID')
+    }
+
+    // Find the section that this question belongs to
+    const section = await Section.findById(sectionId)
+    if (!section) {
+      throw new BadRequestError('Section not found')
+    }
+
+    // Check if the question already exists for the section
+    const existingTitle = await Question.findOne({
+      title,
+      section: section._id
+    })
+
+    if (existingTitle) {
+      throw new BadRequestError('Title already exists for this section')
+    }
+
     // Create a new question
     const questionObj = await Question.create({
       user: req.user.id, // ID of the user who created this question
@@ -39,9 +62,6 @@ const createQuestion = async (req, res) => {
       difficulty,
       section: sectionId // Add the section ID to the question's section field
     })
-
-    // Find the section that this question belongs to
-    const section = await Section.findById(sectionId)
 
     // Add the newly created question to the section's list of questions
     section.questions.push(questionObj)

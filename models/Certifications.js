@@ -11,7 +11,8 @@ const QuestionSchema = new mongoose.Schema(
       required: [true, 'Title is required'],
       minlength: 10,
       maxlength: 150,
-      trim: true
+      trim: true,
+      unique: true
     },
     question: {
       type: String,

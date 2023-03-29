@@ -1,6 +1,7 @@
 import { Section, Exam } from '../models/Certifications.js'
 import { StatusCodes } from 'http-status-codes'
 import { BadRequestError } from '../errors/index.js'
+import mongoose from 'mongoose'
 
 const createSection = async (req, res) => {
   try {
@@ -11,12 +12,16 @@ const createSection = async (req, res) => {
       throw new BadRequestError('Exam ID and section are required')
     }
 
-    // Find the exam by its ID
-    const existingExam = await Exam.findById(examId)
+    // validate that the exam ID is valid
+    const isValidExamId = mongoose.Types.ObjectId.isValid(examId)
+    if (!isValidExamId) {
+      throw new BadRequestError('Invalid exam ID')
+    }
 
-    // Check if the exam exists
+    // Find the exam that this section belongs to
+    const existingExam = await Exam.findById(examId)
     if (!existingExam) {
-      throw new BadRequestError('Invalid Exam ID')
+      throw new BadRequestError('Exam not found')
     }
 
     // Check if the section already exists for the exam

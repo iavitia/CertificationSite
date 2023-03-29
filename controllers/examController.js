@@ -1,21 +1,32 @@
 import { Exam, Organization } from '../models/Certifications.js'
 import { StatusCodes } from 'http-status-codes'
 import { BadRequestError } from '../errors/index.js'
+import mongoose from 'mongoose'
 
 const createExam = async (req, res) => {
   try {
     const { examName, organizationId } = req.body
 
-    // Check if the exam name already exists in the database
-    const existingExam = await Exam.findOne({ examName })
-    if (existingExam) {
-      throw new BadRequestError('Exam name already exists')
+    if (!examName || !organizationId) {
+      throw new BadRequestError('Exam name and organization ID are required')
+    }
+
+    // validate that the organization ID is a valid MongoDB ID
+    const isValidId = mongoose.Types.ObjectId.isValid(organizationId)
+    if (!isValidId) {
+      throw new BadRequestError('Invalid organization ID')
     }
 
     // Find the organization by ID
     const organization = await Organization.findById(organizationId)
     if (!organization) {
       throw new BadRequestError('Organization not found')
+    }
+
+    // Check if the exam name already exists in the database
+    const existingExam = await Exam.findOne({ examName })
+    if (existingExam) {
+      throw new BadRequestError('Exam name already exists')
     }
 
     // Create a new exam

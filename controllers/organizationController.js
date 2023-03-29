@@ -10,12 +10,12 @@ const createOrganization = async (req, res) => {
       throw new BadRequestError('Please provide an organization name')
     }
 
-    // Check if an organization with the same name already exists
-    const organization = await Organization.findOne({
-      organizationName: { $regex: new RegExp(`^${organizationName}$`, 'i') }
+    // Check if the organization name already exists
+    const existingOrganization = await Organization.findOne({
+      organizationName
     })
-    if (organization) {
-      throw new BadRequestError('An organization with this name already exists')
+    if (existingOrganization) {
+      throw new BadRequestError('Organization name already exists')
     }
 
     // Create a new organization
