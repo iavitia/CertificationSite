@@ -2,9 +2,10 @@ import mongoose from 'mongoose'
 
 const QuestionSchema = new mongoose.Schema(
   {
-    user: {
+    createdBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User'
+      ref: 'User',
+      required: [true, 'Please provide user']
     },
     title: {
       type: String,
@@ -103,7 +104,7 @@ const QuestionSchema = new mongoose.Schema(
     ],
     comments: [
       {
-        user: {
+        createdBy: {
           type: mongoose.Schema.Types.ObjectId,
           ref: 'User'
         },

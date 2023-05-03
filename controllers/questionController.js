@@ -2,6 +2,7 @@ import { Question, Section } from '../models/Certifications.js'
 import { StatusCodes } from 'http-status-codes'
 import { BadRequestError } from '../errors/index.js'
 import mongoose from 'mongoose'
+import checkPermissions from '../utils/checkPermissions.js'
 
 const createQuestion = async (req, res) => {
   try {
@@ -53,7 +54,7 @@ const createQuestion = async (req, res) => {
 
     // Create a new question
     const questionObj = await Question.create({
-      user: req.user.id, // ID of the user who created this question
+      createdBy: req.user.userId, // ID of the user who created this question
       title,
       question,
       choices,
@@ -160,6 +161,8 @@ const updateQuestion = async (req, res) => {
     if (!existingQuestion) {
       throw new BadRequestError('Question not found')
     }
+
+    checkPermissions(req.user, existingQuestion.createdBy)
 
     existingQuestion.title = title
     existingQuestion.question = question
