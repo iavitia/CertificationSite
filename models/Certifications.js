@@ -132,7 +132,6 @@ const SectionSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Section is required'],
     trim: true,
-    unique: true,
     minlength: 1,
     maxlength: 150
   },
@@ -142,6 +141,8 @@ const SectionSchema = new mongoose.Schema({
     ref: 'Exam'
   }
 })
+
+SectionSchema.index({ section: 1, exam: 1 }, { unique: true })
 
 const ExamSchema = new mongoose.Schema({
   examName: {
@@ -170,6 +171,78 @@ const OrganizationSchema = new mongoose.Schema({
   },
   exams: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Exam' }]
 })
+
+//------------------//
+// QuestionSchema Middleware //
+//------------------//
+
+QuestionSchema.pre('findOneAndUpdate', function (next) {
+  const update = this.getUpdate()
+  const correctAnswer = update.correctAnswer
+  const choices = update.choices
+
+  if (correctAnswer) {
+    const errors = validateCorrectAnswer(correctAnswer, choices)
+    if (errors.length > 0) {
+      const error = new Error(errors.join('\n'))
+      return next(error)
+    }
+  }
+
+  if (choices && (choices.length < 2 || choices.length > 6)) {
+    const error = new Error('Choices must be between 2 and 6')
+    return next(error)
+  }
+
+  // Add this line to update the choices array
+  this.update({}, { $set: { choices } })
+
+  next()
+})
+
+QuestionSchema.path('correctAnswer').validate(function (correctAnswer) {
+  const choices = this.choices
+  const errors = validateCorrectAnswer(correctAnswer, choices)
+
+  if (errors.length > 0) {
+    this.invalidate('correctAnswer', errors.join('\n'))
+  }
+
+  return errors.length === 0
+})
+
+function validateCorrectAnswer(correctAnswer, choices) {
+  const errors = []
+
+  if (choices.length === 2 && correctAnswer.length > 1) {
+    errors.push('There can only be 1 correct answer when there are 2 choices')
+  }
+
+  if (correctAnswer.length < 1) {
+    errors.push('At least 1 correct answer is required')
+  }
+
+  if (correctAnswer.length > choices.length) {
+    errors.push(
+      'Number of correct answers must be less than or equal to the number of choices'
+    )
+  }
+
+  const choicesLowerCase = choices.map((choice) => choice.toLowerCase())
+  const correctAnswersLowerCase = correctAnswer.map((answer) =>
+    answer.toLowerCase()
+  )
+
+  if (
+    !correctAnswersLowerCase.every((answer) =>
+      choicesLowerCase.includes(answer)
+    )
+  ) {
+    errors.push('Correct answer must be in choices')
+  }
+
+  return errors
+}
 
 const Question = mongoose.model('Question', QuestionSchema)
 const Section = mongoose.model('Section', SectionSchema)
