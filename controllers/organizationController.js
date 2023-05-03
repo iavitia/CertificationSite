@@ -1,6 +1,7 @@
 import { Organization } from '../models/Certifications.js'
 import { StatusCodes } from 'http-status-codes'
 import { BadRequestError } from '../errors/index.js'
+import mongoose from 'mongoose'
 
 const createOrganization = async (req, res) => {
   try {
@@ -55,4 +56,90 @@ const getAllOrganizations = async (req, res) => {
   }
 }
 
-export { createOrganization, getAllOrganizations }
+const getOrganizationById = async (req, res) => {
+  try {
+    const organization = await Organization.findById(req.params.organizationId)
+    if (!organization) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        success: false,
+        message: 'Organization not found'
+      })
+    }
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: 'Organization fetched successfully',
+      organization
+    })
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: 'Failed to fetch organization',
+      error: error.message
+    })
+  }
+}
+
+const updateOrganization = async (req, res) => {
+  try {
+    const organizationId = req.params.organizationId
+    const { organizationName } = req.body
+
+    if (!organizationName) {
+      throw new BadRequestError('Organization name is required')
+    }
+
+    // validate that the organization ID is a valid MongoDB ID
+    const isValidId = mongoose.Types.ObjectId.isValid(organizationId)
+    if (!isValidId) {
+      throw new BadRequestError('Invalid organization ID')
+    }
+
+    // Find the organization by ID
+    const organization = await Organization.findById(organizationId)
+    if (!organization) {
+      throw new BadRequestError('Organization not found')
+    }
+
+    // Validate organization name length
+    if (organizationName.length < 1 || organizationName.length > 150) {
+      throw new BadRequestError(
+        'Organization name must be between 1 and 150 characters'
+      )
+    }
+
+    // VaLidate organization name is unique
+    const existingOrganization = await Organization.findOne({
+      organizationName
+    })
+    if (existingOrganization && existingOrganization._id != organizationId) {
+      throw new BadRequestError('Organization name already exists')
+    }
+
+    const oldOrganizationName = organization.organizationName
+
+    const updatedOrganization = await Organization.findByIdAndUpdate(
+      organizationId,
+      { organizationName },
+      { new: true, runValidators: true }
+    )
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: `Organization updated successfully from '${oldOrganizationName}' to '${organizationName}'`,
+      organization: updatedOrganization
+    })
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: 'Failed to update organization',
+      error: error.message
+    })
+  }
+}
+
+export {
+  createOrganization,
+  getAllOrganizations,
+  getOrganizationById,
+  updateOrganization
+}

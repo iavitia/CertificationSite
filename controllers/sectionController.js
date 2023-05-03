@@ -76,4 +76,88 @@ const getAllSections = async (req, res) => {
   }
 }
 
-export { createSection, getAllSections }
+const getSectionById = async (req, res) => {
+  try {
+    const section = await Section.findById(req.params.sectionId)
+
+    if (!section) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        success: false,
+        message: 'Section not found'
+      })
+    }
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: 'Section fetched successfully',
+      section
+    })
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: 'Failed to fetch section',
+      error: error.message
+    })
+  }
+}
+
+const updateSection = async (req, res) => {
+  try {
+    const { section } = req.body
+    const sectionId = req.params.sectionId
+
+    // Check if required data is present in the request body
+    if (!section) {
+      throw new BadRequestError('Section name is required')
+    }
+
+    // Check if sectionId is a valid ObjectId
+    const isValidSectionId = mongoose.Types.ObjectId.isValid(sectionId)
+    if (!isValidSectionId) {
+      throw new BadRequestError('Invalid section ID')
+    }
+
+    // Find the section to update
+    const existingSection = await Section.findById(sectionId)
+    if (!existingSection) {
+      throw new NotFoundError('Section not found')
+    }
+
+    // Validate section name length
+    if (section.length < 1 || section.length > 150) {
+      throw new BadRequestError(
+        'Section name must be between 1 and 150 characters'
+      )
+    }
+
+    // Validate that the section name is unique
+    const existingSectionWithSameName = await Section.findOne({
+      section
+    })
+    if (
+      existingSectionWithSameName &&
+      existingSectionWithSameName._id != sectionId
+    ) {
+      throw new BadRequestError('Section name already exists')
+    }
+
+    // Update the section name
+    existingSection.section = section
+
+    // Save the updated section
+    const updatedSection = await existingSection.save()
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: `Section updated successfully to ${updatedSection.section}`,
+      section: updatedSection
+    })
+  } catch (error) {
+    res.status(error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: 'Failed to update section',
+      error: error.message
+    })
+  }
+}
+
+export { createSection, getAllSections, getSectionById, updateSection }

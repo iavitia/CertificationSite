@@ -1,11 +1,14 @@
 import express from 'express'
 import {
   createSection,
-  getAllSections
+  getAllSections,
+  getSectionById,
+  updateSection
 } from '../controllers/sectionController.js'
 
 const router = express.Router()
 
 router.route('/').post(createSection).get(getAllSections)
+router.route('/:sectionId').patch(updateSection).get(getSectionById)
 
 export default router

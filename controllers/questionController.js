@@ -98,12 +98,96 @@ const getAllQuestions = async (req, res) => {
   }
 }
 
+const getQuestionById = async (req, res) => {
+  const questionId = req.params.questionId
+  try {
+    const question = await Question.findById(questionId)
+
+    if (question) {
+      res.status(StatusCodes.OK).json({
+        success: true,
+        message: 'Question fetched successfully',
+        question
+      })
+    } else {
+      res.status(StatusCodes.NOT_FOUND).json({
+        success: false,
+        message: 'Question not found'
+      })
+    }
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: 'Failed to fetch question',
+      error: error.message
+    })
+  }
+}
+
 const deleteQuestion = async (req, res) => {
   res.send('delete question')
 }
 
 const updateQuestion = async (req, res) => {
-  res.send('update question')
+  try {
+    const questionId = req.params.questionId
+    const { title, question, choices, correctAnswer, solution, difficulty } =
+      req.body
+
+    if (
+      !title ||
+      !question ||
+      !choices ||
+      !correctAnswer ||
+      !solution ||
+      !difficulty
+    ) {
+      throw new BadRequestError('All question fields are required')
+    }
+
+    if (!Array.isArray(correctAnswer) || correctAnswer.length < 1) {
+      throw new BadRequestError(
+        'Correct answer must be an array of at least one string'
+      )
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(questionId)) {
+      throw new BadRequestError('Invalid question ID')
+    }
+
+    const existingQuestion = await Question.findOne({ _id: questionId })
+
+    if (!existingQuestion) {
+      throw new BadRequestError('Question not found')
+    }
+
+    existingQuestion.title = title
+    existingQuestion.question = question
+    existingQuestion.choices = choices
+    existingQuestion.correctAnswer = correctAnswer
+    existingQuestion.solution = solution
+    existingQuestion.difficulty = difficulty
+
+    await existingQuestion.save()
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: 'Question updated successfully',
+      question: existingQuestion
+    })
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: 'Failed to update question',
+      error: error.message
+    })
+  }
 }
 
-export { createQuestion, deleteQuestion, getAllQuestions, updateQuestion }
+export {
+  createQuestion,
+  deleteQuestion,
+  getAllQuestions,
+  getQuestionById,
+  updateQuestion
+}
