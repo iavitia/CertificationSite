@@ -1,0 +1,5 @@
+export { default as authRouter } from './authRoutes.js'
+export { default as questionRouter } from './questionRoutes.js'
+export { default as sectionRouter } from './sectionRoutes.js'
+export { default as examRouter } from './examRoutes.js'
+export { default as organizationRouter } from './organizationRoutes.js'
