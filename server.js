@@ -8,11 +8,13 @@ import morgan from 'morgan'
 // db
 import connectDB from './db/connect.js'
 // routers
-import authRouter from './routes/authRoutes.js'
-import questionRouter from './routes/questionRoutes.js'
-import sectionRouter from './routes/sectionRoutes.js'
-import examRouter from './routes/examRoutes.js'
-import organizationRouter from './routes/organizationRoutes.js'
+import {
+  authRouter,
+  questionRouter,
+  sectionRouter,
+  examRouter,
+  organizationRouter
+} from './routes/index.js'
 // middleware
 import notFoundMiddleware from './middleware/not-found.js'
 import errorHandlerMiddleware from './middleware/error-handler.js'

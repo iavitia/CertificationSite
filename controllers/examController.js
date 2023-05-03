@@ -1,4 +1,4 @@
-import { Exam, Organization } from '../models/Certifications.js'
+import { Exam, Organization } from '../models/certification/index.js'
 import { StatusCodes } from 'http-status-codes'
 import { BadRequestError } from '../errors/index.js'
 import mongoose from 'mongoose'

@@ -128,55 +128,6 @@ const QuestionSchema = new mongoose.Schema(
   { timestamps: true }
 )
 
-const SectionSchema = new mongoose.Schema({
-  section: {
-    type: String,
-    required: [true, 'Section is required'],
-    trim: true,
-    minlength: 1,
-    maxlength: 150
-  },
-  questions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Question' }],
-  exam: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Exam'
-  }
-})
-
-SectionSchema.index({ section: 1, exam: 1 }, { unique: true })
-
-const ExamSchema = new mongoose.Schema({
-  examName: {
-    type: String,
-    required: [true, 'Exam name is required'],
-    trim: true,
-    minlength: 1,
-    maxlength: 150,
-    unique: true
-  },
-  sections: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Section' }],
-  organization: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Organization'
-  }
-})
-
-const OrganizationSchema = new mongoose.Schema({
-  organizationName: {
-    type: String,
-    required: [true, 'Organization is required'],
-    minlength: 1,
-    maxlength: 150,
-    trim: true,
-    unique: true
-  },
-  exams: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Exam' }]
-})
-
-//------------------//
-// QuestionSchema Middleware //
-//------------------//
-
 QuestionSchema.pre('findOneAndUpdate', function (next) {
   const update = this.getUpdate()
   const correctAnswer = update.correctAnswer
@@ -245,9 +196,4 @@ function validateCorrectAnswer(correctAnswer, choices) {
   return errors
 }
 
-const Question = mongoose.model('Question', QuestionSchema)
-const Section = mongoose.model('Section', SectionSchema)
-const Exam = mongoose.model('Exam', ExamSchema)
-const Organization = mongoose.model('Organization', OrganizationSchema)
-
-export { Question, Section, Exam, Organization }
+export default mongoose.model('Question', QuestionSchema)
