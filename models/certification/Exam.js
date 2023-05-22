@@ -1,6 +1,11 @@
 import mongoose from 'mongoose'
 
 const ExamSchema = new mongoose.Schema({
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: [true, 'Please provide user']
+  },
   examName: {
     type: String,
     required: [true, 'Exam name is required'],

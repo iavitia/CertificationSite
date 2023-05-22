@@ -2,6 +2,7 @@ import { Section, Exam } from '../models/certification/index.js'
 import { StatusCodes } from 'http-status-codes'
 import { BadRequestError } from '../errors/index.js'
 import mongoose from 'mongoose'
+import checkPermissions from '../utils/checkPermissions.js'
 
 const createSection = async (req, res) => {
   try {
@@ -36,6 +37,7 @@ const createSection = async (req, res) => {
 
     // Create a new section for the exam
     const newSection = await Section.create({
+      createdBy: req.user.userId,
       section,
       questions: [],
       exam: existingExam._id
@@ -160,4 +162,44 @@ const updateSection = async (req, res) => {
   }
 }
 
-export { createSection, getAllSections, getSectionById, updateSection }
+const deleteSection = async (req, res) => {
+  try {
+    const sectionId = req.params.sectionId
+
+    // Check if sectionId is a valid ObjectId
+    const isValidSectionId = mongoose.Types.ObjectId.isValid(sectionId)
+    if (!isValidSectionId) {
+      throw new BadRequestError('Invalid section ID')
+    }
+
+    // Find the section to delete
+    const existingSection = await Section.findById(sectionId)
+    if (!existingSection) {
+      throw new NotFoundError('Section not found')
+    }
+
+    checkPermissions(req.user, existingSection.createdBy)
+
+    // Delete the section
+    await existingSection.remove()
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: 'Section deleted successfully'
+    })
+  } catch (error) {
+    res.status(error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: 'Failed to delete section',
+      error: error.message
+    })
+  }
+}
+
+export {
+  createSection,
+  getAllSections,
+  getSectionById,
+  updateSection,
+  deleteSection
+}
