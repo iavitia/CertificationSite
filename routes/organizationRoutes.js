@@ -3,7 +3,8 @@ import {
   createOrganization,
   getAllOrganizations,
   getOrganizationById,
-  updateOrganization
+  updateOrganization,
+  deleteOrganization
 } from '../controllers/organizationController.js'
 
 const router = express.Router()
@@ -13,5 +14,6 @@ router
   .route('/:organizationId')
   .patch(updateOrganization)
   .get(getOrganizationById)
+  .delete(deleteOrganization)
 
 export default router

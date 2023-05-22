@@ -2,6 +2,7 @@ import { Exam, Organization } from '../models/certification/index.js'
 import { StatusCodes } from 'http-status-codes'
 import { BadRequestError } from '../errors/index.js'
 import mongoose from 'mongoose'
+import checkPermissions from '../utils/checkPermissions.js'
 
 const createExam = async (req, res) => {
   try {
@@ -31,6 +32,7 @@ const createExam = async (req, res) => {
 
     // Create a new exam
     const exam = await Exam.create({
+      createdBy: req.user.userId,
       examName,
       sections: []
     })
@@ -149,4 +151,38 @@ const updateExam = async (req, res) => {
   }
 }
 
-export { createExam, getAllExams, getExamById, updateExam }
+const deleteExam = async (req, res) => {
+  try {
+    const examId = req.params.examId
+
+    // validate that the exam ID is a valid MongoDB ID
+    const isValidId = mongoose.Types.ObjectId.isValid(examId)
+    if (!isValidId) {
+      throw new BadRequestError('Invalid exam ID')
+    }
+
+    // Find the exam by ID
+    const exam = await Exam.findById(examId)
+    if (!exam) {
+      throw new BadRequestError('Exam not found')
+    }
+
+    checkPermissions(req.user, exam.createdBy)
+
+    // Delete the exam
+    await Exam.findByIdAndDelete(examId)
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: 'Exam deleted successfully'
+    })
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: 'Failed to delete exam',
+      error: error.message
+    })
+  }
+}
+
+export { createExam, getAllExams, getExamById, updateExam, deleteExam }

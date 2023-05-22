@@ -2,6 +2,7 @@ import { Organization } from '../models/certification/index.js'
 import { StatusCodes } from 'http-status-codes'
 import { BadRequestError } from '../errors/index.js'
 import mongoose from 'mongoose'
+import checkPermissions from '../utils/checkPermissions.js'
 
 const createOrganization = async (req, res) => {
   try {
@@ -21,6 +22,7 @@ const createOrganization = async (req, res) => {
 
     // Create a new organization
     const organizationObj = await Organization.create({
+      createdBy: req.user.userId,
       organizationName,
       exam: []
     })
@@ -137,9 +139,43 @@ const updateOrganization = async (req, res) => {
   }
 }
 
+const deleteOrganization = async (req, res) => {
+  try {
+    const organizationId = req.params.organizationId
+
+    // validate that the organization ID is a valid MongoDB ID
+    const isValidId = mongoose.Types.ObjectId.isValid(organizationId)
+    if (!isValidId) {
+      throw new BadRequestError('Invalid organization ID')
+    }
+
+    // Find the organization by ID
+    const existingOrganization = await Organization.findById(organizationId)
+    if (!existingOrganization) {
+      throw new BadRequestError('Organization not found')
+    }
+
+    checkPermissions(req.user, existingOrganization.createdBy)
+
+    await Organization.findByIdAndDelete(organizationId)
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: 'Organization deleted successfully'
+    })
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: 'Failed to delete organization',
+      error: error.message
+    })
+  }
+}
+
 export {
   createOrganization,
   getAllOrganizations,
   getOrganizationById,
-  updateOrganization
+  updateOrganization,
+  deleteOrganization
 }

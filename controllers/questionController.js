@@ -54,7 +54,7 @@ const createQuestion = async (req, res) => {
 
     // Create a new question
     const questionObj = await Question.create({
-      createdBy: req.user.userId, // ID of the user who created this question
+      createdBy: req.user.userId,
       title,
       question,
       choices,
@@ -126,7 +126,36 @@ const getQuestionById = async (req, res) => {
 }
 
 const deleteQuestion = async (req, res) => {
-  res.send('delete question')
+  try {
+    const questionId = req.params.questionId
+
+    // Check if the question ID is valid
+    const isValidQuestionId = mongoose.Types.ObjectId.isValid(questionId)
+    if (!isValidQuestionId) {
+      throw new BadRequestError('Invalid question ID')
+    }
+
+    const existingQuestion = await Question.findOne({ _id: questionId })
+
+    if (!existingQuestion) {
+      throw new BadRequestError('Question not found')
+    }
+
+    checkPermissions(req.user, existingQuestion.createdBy)
+
+    await existingQuestion.remove()
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: 'Question deleted successfully'
+    })
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: 'Failed to delete question',
+      error: error.message
+    })
+  }
 }
 
 const updateQuestion = async (req, res) => {
