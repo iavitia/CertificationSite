@@ -1,95 +1,48 @@
+import { useEffect, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 // material
 import {
-  Autocomplete,
   Link,
   Table,
   TableRow,
   TableHead,
   TableBody,
   TableCell,
-  TableContainer,
-  TextField,
-  Stack
+  TableContainer
 } from '@mui/material'
 // utils
 import { sentenceCase } from 'sentence-case'
 // components
 import { Label, Scrollbar } from '../../../components'
-
-// ----------------------------------------------------------------------
-
-function createData(id, title, difficulty) {
-  return { id, title, difficulty }
-}
-
-// placeholder data for CERTIFICATIONS
-// and BASIC_TABLE
-const CERTIFICATIONS = [
-  {
-    id: 1,
-    title: 'AWS Certified Solutions Architect - Associate',
-    section: 'AWS',
-    difficulty: 'easy'
-  },
-  {
-    id: 2,
-    title: 'AWS Certified Developer - Associate',
-    section: 'AS',
-    difficulty: 'medium'
-  },
-  {
-    id: 3,
-    title: 'AWS Certified DevOps Engineer - Professional',
-    section: 'AW',
-    difficulty: 'easy'
-  }
-]
-
-const BASIC_TABLE = [
-  createData(1, 'Average of Levels in Binary Tree', 'easy'),
-  createData(2, 'Median of Two Sorted Arrays', 'hard'),
-  createData(3, 'Regular Expression Matching', 'medium'),
-  createData(4, 'Substring with Concatenation of All Words', 'medium'),
-  createData(5, 'Best Time to Buy and Sell Stock III', 'easy')
-]
+// context
+import { useAppContext } from '../../../context/appContext'
 
 // ----------------------------------------------------------------------
 
 export default function PracticeProblemList() {
+  const { getAllProblems, problems } = useAppContext()
+  const [loading, setLoading] = useState(true)
+  console.log(problems)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await getAllProblems()
+        setLoading(false)
+      } catch (error) {
+        console.error('Failed to fetch problems:', error)
+      }
+    }
+
+    fetchData()
+  }, [])
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
+
   return (
     <>
-      <Stack
-        direction={{ xs: 'column', sm: 'row' }}
-        spacing={{ xs: 3, sm: 2 }}
-        justifyContent="space-evenly"
-        alignItems="center"
-        sx={{ pb: 2 }}
-      >
-        <Autocomplete
-          fullWidth
-          options={CERTIFICATIONS}
-          renderInput={(params) => (
-            <TextField hiddenLabel {...params} placeholder="Certification" />
-          )}
-        />
-
-        <Autocomplete
-          fullWidth
-          options={CERTIFICATIONS}
-          renderInput={(params) => (
-            <TextField {...params} placeholder="Section" hiddenLabel />
-          )}
-        />
-
-        <Autocomplete
-          fullWidth
-          options={CERTIFICATIONS}
-          renderInput={(params) => (
-            <TextField {...params} placeholder="Difficulty" hiddenLabel />
-          )}
-        />
-      </Stack>
       <Scrollbar>
         <TableContainer>
           <Table padding="normal">
@@ -100,33 +53,40 @@ export default function PracticeProblemList() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {BASIC_TABLE.map((row) => (
-                <TableRow key={row.id}>
-                  <TableCell align="left" component="th" scope="row">
-                    <Link
-                      to="#"
-                      color="inherit"
-                      underline="hover"
-                      component={RouterLink}
-                    >
-                      {row.title}
-                    </Link>
-                  </TableCell>
-                  <TableCell align="left">
-                    <Label
-                      variant="ghost"
-                      color={
-                        (row.difficulty.toLowerCase() === 'hard' && 'error') ||
-                        (row.difficulty.toLowerCase() === 'medium' &&
-                          'warning') ||
-                        'success'
-                      }
-                    >
-                      {sentenceCase(row.difficulty)}
-                    </Label>
-                  </TableCell>
-                </TableRow>
-              ))}
+              {problems.map((organization) =>
+                organization.exams.map((exam) =>
+                  exam.sections.map((section) =>
+                    section.questions.map((question) => (
+                      <TableRow key={question._id}>
+                        <TableCell align="left" component="th" scope="row">
+                          <Link
+                            to="#"
+                            color="inherit"
+                            underline="hover"
+                            component={RouterLink}
+                          >
+                            {question.title}
+                          </Link>
+                        </TableCell>
+                        <TableCell align="left">
+                          <Label
+                            variant="ghost"
+                            color={
+                              (question.difficulty.toLowerCase() === 'hard' &&
+                                'error') ||
+                              (question.difficulty.toLowerCase() === 'medium' &&
+                                'warning') ||
+                              'success'
+                            }
+                          >
+                            {sentenceCase(question.difficulty)}
+                          </Label>
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  )
+                )
+              )}
             </TableBody>
           </Table>
         </TableContainer>

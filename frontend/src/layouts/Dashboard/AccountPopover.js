@@ -1,15 +1,15 @@
 import { useRef, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
-// context
-import { useAppContext } from '../../context/appContext'
+// components
+import Iconify from '../../components/Iconify'
+import { MenuPopover } from '../../components'
 // material
 import { alpha } from '@mui/material/styles'
 import { Box, Divider, MenuItem, Avatar, IconButton } from '@mui/material'
 //  routes
 import { PATH_DASHBOARD } from '../../routes/paths'
-// components
-import Iconify from '../../components/Iconify'
-import { MenuPopover } from '../../components'
+// context
+import { useAppContext } from '../../context/appContext'
 
 // ----------------------------------------------------------------------
 

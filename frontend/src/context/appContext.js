@@ -1,7 +1,6 @@
 import { useReducer, useContext, createContext } from 'react'
 import axios from 'axios'
-import reducer from './reducer'
-import { DISPLAY_ALERT, REGISTER, LOGIN, LOGOUT, UPDATE_USER } from './actions'
+import * as actionTypes from './actionTypes'
 
 const token = localStorage.getItem('token')
 const user = localStorage.getItem('user')
@@ -12,10 +11,53 @@ const initialState = {
   alertText: '',
   alertType: '',
   user: user ? JSON.parse(user) : null,
-  token: token
+  token: token,
+  // ----------------- Study -----------------
+  problems: []
 }
 
 const AppContext = createContext()
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case actionTypes.DISPLAY_ALERT:
+      return {
+        ...state,
+        showAlert: false,
+        alertType: '',
+        alertText: ''
+      }
+    // ----------------- Auth -----------------
+    case actionTypes.REGISTER:
+    case actionTypes.LOGIN:
+      return {
+        ...state,
+        token: action.payload.token,
+        user: action.payload.user
+      }
+    case actionTypes.LOGOUT:
+      return {
+        ...initialState,
+        user: null,
+        token: null
+      }
+    case actionTypes.UPDATE_USER:
+      return {
+        ...state,
+        token: action.payload.token,
+        user: action.payload.user
+      }
+    // ----------------- Study -----------------
+    case actionTypes.FETCH_ORGANIZATIONS:
+      return {
+        ...state,
+        problems: action.payload
+      }
+
+    default:
+      throw new Error(`Unknown action type: ${action.type}`)
+  }
+}
 
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
@@ -50,7 +92,7 @@ const AppProvider = ({ children }) => {
   )
 
   const displayAlert = () => {
-    dispatch({ type: DISPLAY_ALERT })
+    dispatch({ type: actionTypes.DISPLAY_ALERT })
   }
 
   const addUserToLocalStorage = ({ user, token }) => {
@@ -63,41 +105,74 @@ const AppProvider = ({ children }) => {
     localStorage.removeItem('token')
   }
 
+  // ----------------- Auth -----------------
+
   const registerUser = async (currentUser) => {
-    const { data } = await axios.post('/api/v1/auth/register', currentUser)
-    const { user, token } = data
+    try {
+      const { data } = await axios.post('/api/v1/auth/register', currentUser)
+      const { user, token } = data
 
-    dispatch({
-      type: REGISTER,
-      payload: { user, token }
-    })
+      dispatch({
+        type: actionTypes.REGISTER,
+        payload: { user, token }
+      })
 
-    addUserToLocalStorage({ user, token })
+      addUserToLocalStorage({ user, token })
+    } catch (error) {
+      throw new Error(error.response.data.msg)
+    }
   }
 
   const login = async (currentUser) => {
-    const { data } = await axios.post('/api/v1/auth/login', currentUser)
-    const { user, token } = data
+    try {
+      const { data } = await axios.post('/api/v1/auth/login', currentUser)
+      const { user, token } = data
 
-    dispatch({
-      type: LOGIN,
-      payload: { user, token }
-    })
+      dispatch({
+        type: actionTypes.LOGIN,
+        payload: { user, token }
+      })
 
-    addUserToLocalStorage({ user, token })
+      addUserToLocalStorage({ user, token })
+    } catch (error) {
+      throw new Error(error.response.data.msg)
+    }
   }
 
   const logout = () => {
-    dispatch({ type: LOGOUT })
-    removeUserFromLocalStorage()
+    try {
+      dispatch({ type: actionTypes.LOGOUT })
+      removeUserFromLocalStorage()
+    } catch (error) {
+      throw new Error(error)
+    }
   }
 
   const updateUser = async (currentUser) => {
-    const { data } = await authFetch.patch('/auth/updateUser', currentUser)
-    const { user, token } = data
+    try {
+      const { data } = await authFetch.patch('/auth/updateUser', currentUser)
+      const { user, token } = data
 
-    dispatch({ type: UPDATE_USER, payload: { user, token } })
-    addUserToLocalStorage({ user, token })
+      dispatch({ type: actionTypes.UPDATE_USER, payload: { user, token } })
+      addUserToLocalStorage({ user, token })
+    } catch (error) {
+      throw new Error(error.response.data.msg)
+    }
+  }
+
+  // ----------------- Study -----------------
+
+  const getAllProblems = async () => {
+    try {
+      const { data } = await authFetch.get('/organizations')
+      dispatch({
+        type: actionTypes.FETCH_ORGANIZATIONS,
+        payload: data.organizations
+      })
+    } catch (error) {
+      console.log(error.response)
+      throw new Error(error.response.data.msg)
+    }
   }
 
   return (
@@ -108,7 +183,8 @@ const AppProvider = ({ children }) => {
         registerUser,
         login,
         logout,
-        updateUser
+        updateUser,
+        getAllProblems
       }}
     >
       {children}
@@ -120,4 +196,4 @@ const useAppContext = () => {
   return useContext(AppContext)
 }
 
-export { AppProvider, initialState, useAppContext }
+export { AppProvider, useAppContext }
