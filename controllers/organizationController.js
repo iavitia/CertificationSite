@@ -43,7 +43,15 @@ const createOrganization = async (req, res) => {
 
 const getAllOrganizations = async (req, res) => {
   try {
-    const organizations = await Organization.find({})
+    const organizations = await Organization.find({}).populate({
+      path: 'exams',
+      populate: {
+        path: 'sections',
+        populate: {
+          path: 'questions'
+        }
+      }
+    })
     res.status(StatusCodes.OK).json({
       success: true,
       message: 'Organizations fetched successfully',

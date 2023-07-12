@@ -1,8 +1,8 @@
 import { Navigate } from 'react-router-dom'
-// context
-import { useAppContext } from '../context/appContext'
 // routes
 import { PATH_DASHBOARD } from '../routes/paths'
+// context
+import { useAppContext } from '../context/appContext'
 
 // ----------------------------------------------------------------------
 

@@ -1,7 +1,8 @@
-import { useAppContext } from '../context/appContext'
 import { Navigate } from 'react-router-dom'
 // routes
 import { PATH_AUTH } from '../routes/paths'
+// context
+import { useAppContext } from '../context/appContext'
 
 // ----------------------------------------------------------------------
 
